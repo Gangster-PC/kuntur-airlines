@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit/latin-500-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit/latin-600-normal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit/latin-700-normal.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{
   --ink:#0b2622; --sea-deep:#07262d; --sea:#0e4750; --jungle-deep:#0d3529; --jungle:#1c5c44;
@@ -296,13 +298,137 @@ body.no-scroll{overflow:hidden}
 .quote-total strong{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.1rem);font-weight:700;color:#fff}
 .summary .btn{width:100%;justify-content:center;margin-top:24px}
 .summary-note{margin-top:16px;font-size:.72rem;color:rgba(246,239,225,.5);font-weight:300;text-align:center}
-.success{display:none;background:var(--paper);border-radius:24px;padding:60px 40px;text-align:center;border:1px solid var(--line);box-shadow:0 24px 60px rgba(11,38,34,.12)}
+/* ---------- Pasaporte Digital de Expedicionario ---------- */
+.success{display:none;background:var(--paper);border-radius:28px;padding:36px 20px;text-align:center;border:1px solid var(--line);box-shadow:0 24px 60px rgba(11,38,34,.12);max-width:840px;margin:0 auto}
 .success.show{display:block;animation:popIn .6s cubic-bezier(.22,1,.36,1)}
 @keyframes popIn{from{opacity:0;transform:scale(.94) translateY(20px)}}
-.success .ok{width:78px;height:78px;margin:0 auto 24px;border-radius:50%;background:linear-gradient(135deg,var(--jungle),var(--sea));display:grid;place-items:center;color:#fff;font-size:2rem}
-.success h3{font-family:var(--serif);font-size:2rem;color:var(--ink);font-weight:600}
-.success p{color:var(--muted);margin-top:12px;max-width:460px;margin-inline:auto;font-weight:300}
-.success .stotal{font-family:var(--serif);font-size:2.4rem;color:var(--jungle);font-weight:700;margin:18px 0 26px}
+.success-top-badge{margin-bottom:28px}
+.success-top-badge .ok{width:58px;height:58px;margin:0 auto 12px;border-radius:50%;background:linear-gradient(135deg,var(--jungle),var(--sea));display:grid;place-items:center;color:#fff;font-size:1.6rem;box-shadow:0 10px 24px rgba(28,92,68,.3)}
+.success-top-badge h3{font-family:var(--serif);font-size:clamp(1.6rem,3.2vw,2.2rem);color:var(--ink);font-weight:700}
+.succ-sub{color:var(--muted);margin-top:6px;font-size:.94rem;max-width:580px;margin-inline:auto;line-height:1.5}
+
+.passport-card{
+  background:linear-gradient(155deg,#07262d 0%,#0d3529 55%,#051c20 100%);
+  border:2px solid var(--gold);
+  border-radius:22px;
+  box-shadow:0 22px 60px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);
+  color:var(--cream);
+  text-align:left;
+  overflow:hidden;
+  position:relative;
+  margin:0 auto;
+  max-width:740px;
+}
+.pass-top-bar{
+  background:linear-gradient(90deg,var(--kmaroon),#631015);
+  padding:12px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1.5px solid var(--gold);
+  gap:12px;
+}
+.pass-brand-tag{display:flex;align-items:center;gap:12px}
+.pass-condor{width:34px;height:34px;flex:none}
+.pass-brand-tag strong{display:block;font-size:.78rem;letter-spacing:.14em;color:var(--gold-soft);text-transform:uppercase}
+.pass-brand-tag small{display:block;font-size:.62rem;letter-spacing:.22em;color:rgba(246,239,225,.75)}
+.pass-stamp{display:inline-flex;align-items:center;gap:8px;background:rgba(0,0,0,.35);padding:5px 12px;border-radius:100px;border:1px solid rgba(217,164,65,.5);font-size:.68rem;letter-spacing:.16em;color:var(--gold-soft);font-weight:600}
+.stamp-dot{width:8px;height:8px;border-radius:50%;background:#27ae60;box-shadow:0 0 8px #27ae60;animation:pulseDot 2s infinite}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.4}}
+
+.pass-header{
+  padding:22px 24px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+  border-bottom:1px dashed rgba(217,164,65,.3);
+}
+.pass-kicker{font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-soft);display:block;font-weight:600}
+.pass-title{font-family:var(--serif);font-size:clamp(1.3rem,2.8vw,1.8rem);font-weight:700;color:#fff;letter-spacing:.02em;margin-top:2px}
+.pass-dest{font-size:.78rem;color:rgba(246,239,225,.8);margin-top:2px}
+.pass-badge-gold{background:linear-gradient(135deg,var(--gold),#b88228);color:var(--ink);padding:8px 14px;border-radius:12px;text-align:center;box-shadow:0 6px 16px rgba(0,0,0,.3);flex:none}
+.pass-badge-gold span{display:block;font-size:.56rem;letter-spacing:.16em;font-weight:700}
+.pass-badge-gold strong{display:block;font-size:.78rem;font-weight:800;letter-spacing:.04em}
+
+.pass-details-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px 18px;
+  padding:18px 24px;
+  background:rgba(0,0,0,.15);
+}
+.pass-field label{display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);font-weight:600;margin-bottom:3px}
+.pass-field .val{font-size:.94rem;color:#fff;font-weight:600}
+.pass-field .val.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;color:var(--gold-soft)}
+.pass-field .val.status-ok{color:#2ecc71;font-size:.82rem;letter-spacing:.06em}
+
+.pass-itinerary{
+  padding:18px 24px;
+  border-top:1px dashed rgba(217,164,65,.3);
+  border-bottom:1px dashed rgba(217,164,65,.3);
+  background:rgba(13,53,41,.32);
+}
+.pass-itin-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.pass-itin-title span{font-size:.72rem;letter-spacing:.16em;color:var(--gold-soft);font-weight:700}
+.pass-itin-title small{font-size:.66rem;color:rgba(246,239,225,.75)}
+.pass-plan-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:10px 12px;
+}
+.plan-pill{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(7,38,45,.65);
+  border:1px solid rgba(217,164,65,.25);
+  padding:8px 12px;
+  border-radius:12px;
+}
+.pill-icon{font-size:1.3rem;flex:none}
+.pill-info strong{display:block;font-size:.76rem;color:#fff;font-weight:600;line-height:1.2}
+.pill-info small{display:block;font-size:.64rem;color:rgba(246,239,225,.75);margin-top:2px;line-height:1.2}
+
+.pass-foot-wrap{
+  padding:18px 24px;
+  display:flex;
+  gap:20px;
+  align-items:center;
+  background:rgba(0,0,0,.25);
+}
+.pass-qr-box{
+  background:#fff;
+  padding:10px;
+  border-radius:14px;
+  flex:none;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+}
+#passportQr img,#passportQr canvas{display:block;margin:0 auto}
+.pass-qr-box small{display:block;color:#333;font-size:.56rem;font-weight:600;margin-top:6px;letter-spacing:.04em}
+.pass-foot-text h5{font-size:.75rem;letter-spacing:.12em;color:var(--gold-soft);font-weight:700;margin-bottom:4px}
+.pass-foot-text p{font-size:.72rem;color:rgba(246,239,225,.8);line-height:1.45;font-weight:300}
+.pass-security-seal{margin-top:8px;display:flex;align-items:center;gap:10px;font-size:.62rem;letter-spacing:.16em;color:var(--gold-soft);font-weight:600;flex-wrap:wrap}
+.pass-security-seal .seal-num{background:rgba(217,164,65,.18);border:1px solid var(--gold);padding:2px 8px;border-radius:6px;font-family:monospace}
+
+.passport-actions{
+  margin-top:28px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+@media(max-width:640px){
+  .pass-top-bar{flex-direction:column;align-items:flex-start}
+  .pass-header{flex-direction:column}
+  .pass-foot-wrap{flex-direction:column;text-align:center}
+  .pass-security-seal{justify-content:center}
+  .passport-actions{flex-direction:column}
+  .passport-actions .btn{width:100%;justify-content:center}
+}
+
 
 /* ---------- FAQ ---------- */
 .faq-wrap{max-width:820px;margin:50px auto 0}
@@ -763,16 +889,16 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
 
     <form class="res-grid" id="bookingForm" novalidate data-reveal style="--d:.25s">
       <div class="form-card">
-        <span class="f-label">1 · Elige tu plan</span>
+        <span class="f-label">1 · Modalidad de expedición (Todos los planes incluidos)</span>
         <div class="pkg-grid">
-          <label class="pkg"><input type="radio" name="pkg" value="esencial" checked>
-            <span class="pkg-body"><span><b>Nuquí Esencial</b><small>3 días · 2 noches — pueblo, playa y La Cascada</small></span><span class="pkg-price">$980.000</span></span>
+          <label class="pkg"><input type="radio" name="pkg" value="explora" checked>
+            <span class="pkg-body"><span><b>Expedición Integral Tribugá</b><small>⭐ Programa universitario completo — Ballenas, Tortugas, Cascada, Termales y Vuelo</small></span><span class="pkg-price">$2.480.000</span></span>
           </label>
           <label class="pkg"><input type="radio" name="pkg" value="ballenas">
             <span class="pkg-body"><span><b>Ballenas &amp; Tortugas</b><small>4 días · 3 noches — navegación + liberación</small></span><span class="pkg-price">$1.590.000</span></span>
           </label>
-          <label class="pkg"><input type="radio" name="pkg" value="explora">
-            <span class="pkg-body"><span><b>Exploración Total</b><small>6 días · 5 noches — todo Nuquí, Termales y Tribugá</small></span><span class="pkg-price">$2.480.000</span></span>
+          <label class="pkg"><input type="radio" name="pkg" value="esencial">
+            <span class="pkg-body"><span><b>Nuquí Esencial</b><small>3 días · 2 noches — pueblo, playa y La Cascada</small></span><span class="pkg-price">$980.000</span></span>
           </label>
         </div>
 
@@ -784,46 +910,191 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
             <button type="button" id="travPlus" aria-label="Más viajeros">+</button>
           </div>
           <select class="f-select" id="season">
-            <option value="alta">Temporada alta · Dic–Ene / Jul–Oct (+8%)</option>
-            <option value="media" selected>Temporada media · Feb–Jun</option>
+            <option value="alta" selected>Temporada alta · 14 de agosto de 2027 (+8%)</option>
+            <option value="media">Temporada media · Feb–Jun</option>
             <option value="baja">Temporada baja · Nov (−8%)</option>
           </select>
         </div>
 
-        <span class="f-label">3 · Suma experiencias</span>
+        <span class="f-label">3 · Experiencias de la Expedición (Todos los planes incluidos)</span>
         <div class="addon-grid">
-          <label class="addon-item"><input type="checkbox" class="addon" data-name="Avistamiento de ballenas" data-price="220000"><span><b>Avistamiento de ballenas</b><small>Jul–Oct · $220.000 p/p</small></span></label>
-          <label class="addon-item"><input type="checkbox" class="addon" data-name="Liberación de tortugas" data-price="120000"><span><b>Liberación de tortugas</b><small>Nocturna · $120.000 p/p</small></span></label>
-          <label class="addon-item"><input type="checkbox" class="addon" data-name="Termales del río Coquí" data-price="150000"><span><b>Termales del río Coquí</b><small>Full day · $150.000 p/p</small></span></label>
-          <label class="addon-item"><input type="checkbox" class="addon" data-name="Vuelo Kuntur Airlines ida y vuelta" data-price="780000"><span><b>Vuelo Kuntur ida/vuelta</b><small>BOG–NQU · $780.000 p/p</small></span></label>
+          <label class="addon-item"><input type="checkbox" class="addon" data-name="Avistamiento de ballenas" data-price="220000" checked><span><b>Avistamiento de ballenas</b><small>Golfo de Tribugá · Incluido p/p</small></span></label>
+          <label class="addon-item"><input type="checkbox" class="addon" data-name="Liberación de tortugas" data-price="120000" checked><span><b>Liberación de tortugas</b><small>Playa Guachalito · Incluido p/p</small></span></label>
+          <label class="addon-item"><input type="checkbox" class="addon" data-name="Termales del río Coquí" data-price="150000" checked><span><b>Termales del río Coquí</b><small>Canoa tradicional · Incluido p/p</small></span></label>
+          <label class="addon-item"><input type="checkbox" class="addon" data-name="Vuelo Kuntur Airlines ida y vuelta" data-price="780000" checked><span><b>Vuelo Kuntur BOG–NQU</b><small>KT 0815 ATR 42-500 · Incluido p/p</small></span></label>
         </div>
 
-        <span class="f-label">4 · Tus datos</span>
+        <span class="f-label">4 · Datos del expedicionario</span>
         <div class="f-row">
-          <input class="f-input" id="fName" type="text" placeholder="Nombre completo" autocomplete="name">
+          <input class="f-input" id="fName" type="text" placeholder="Nombre completo del estudiante / viajero" autocomplete="name">
           <input class="f-input" id="fMail" type="email" placeholder="Correo electrónico" autocomplete="email">
         </div>
-        <p id="formErr" style="display:none;color:#c0392b;font-size:.85rem;margin-top:12px">⚠ Revisa tu nombre y escribe un correo válido para enviarte la cotización.</p>
+        <p id="formErr" style="display:none;color:#c0392b;font-size:.85rem;margin-top:12px">⚠ Revisa tu nombre y escribe un correo válido para emitir tu pasaporte oficial.</p>
       </div>
 
       <div class="summary" id="summaryPanel">
-        <h3>Tu cotización</h3>
+        <h3>Tu expedición</h3>
         <p>Estimado en pesos colombianos · por persona</p>
         <ul class="quote-lines" id="quoteLines"></ul>
-        <div class="quote-total"><span>Total viajeros</span><strong id="quoteTotal">$0</strong></div>
-        <button type="submit" class="btn btn-gold">Solicitar esta expedición
+        <div class="quote-total"><span>Total expedición</span><strong id="quoteTotal">$0</strong></div>
+        <button type="submit" class="btn btn-gold" id="btnSubmitForm">Generar Pasaporte Digital
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </button>
-        <p class="summary-note">No incluye tiquete Kuntur Airlines si no lo seleccionas. Respuesta en menos de 24 h.</p>
+        <p class="summary-note">Emisión instantánea con código QR y pase a todas las actividades del Pacífico.</p>
       </div>
     </form>
 
     <div class="success" id="quoteSuccess">
-      <div class="ok">✓</div>
-      <h3 id="succTitle">¡Listo!</h3>
-      <p>Recibimos tu solicitud. Un asesor de Nuquí Viva te escribirá muy pronto con el detalle de tu expedición, la disponibilidad de fechas y tus cupos en el vuelo Bogotá–Nuquí de Kuntur Airlines.</p>
-      <div class="stotal" id="succTotal"></div>
-      <button class="btn btn-gold" id="resetQuote" type="button">Hacer otra cotización</button>
+      <div class="success-top-badge">
+        <div class="ok">✓</div>
+        <h3 id="succTitle">¡Expedición Confirmada!</h3>
+        <p class="succ-sub">Tu Pasaporte Oficial Digital ha sido generado con éxito. Todos los planes y experiencias están acreditados para tu expedición al Pacífico.</p>
+      </div>
+
+      <!-- PASAPORTE DIGITAL OFICIAL -->
+      <div class="passport-card" id="passportCard">
+        <div class="pass-top-bar">
+          <div class="pass-brand-tag">
+            <svg class="pass-condor" viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="50" r="46" fill="#4a0c10" stroke="#d9a441" stroke-width="3"/>
+              <path d="M50 20 L58 38 L78 40 L62 54 L67 74 L50 62 L33 74 L38 54 L22 40 L42 38 Z" fill="#d9a441"/>
+            </svg>
+            <div>
+              <strong>KUNTUR AIRLINES × NUQUÍ VIVA</strong>
+              <small>EXPEDICIÓN OFICIAL PACÍFICO COLOMBIANO</small>
+            </div>
+          </div>
+          <div class="pass-stamp">
+            <span class="stamp-dot"></span>
+            <span>OFICIAL · 2027</span>
+          </div>
+        </div>
+
+        <div class="pass-header">
+          <div>
+            <span class="pass-kicker">CREDENCIAL DIGITAL INTEGRAL</span>
+            <h4 class="pass-title">PASAPORTE DE EXPEDICIONARIO</h4>
+            <p class="pass-dest">Destino: Nuquí, Golfo de Tribugá · Chocó Biogeográfico</p>
+          </div>
+          <div class="pass-badge-gold">
+            <span>TODO INCLUIDO</span>
+            <strong>TODOS LOS PLANES</strong>
+          </div>
+        </div>
+
+        <div class="pass-details-grid">
+          <div class="pass-field">
+            <label>EXPEDICIONARIO / PASAJERO</label>
+            <div class="val" id="passName">—</div>
+          </div>
+          <div class="pass-field">
+            <label>CÓDIGO DE EXPEDICIÓN</label>
+            <div class="val font-mono" id="passCode">NV-2027-0815</div>
+          </div>
+          <div class="pass-field">
+            <label>VUELO OFICIAL KUNTUR</label>
+            <div class="val">KT 0815 · ATR 42-500</div>
+          </div>
+          <div class="pass-field">
+            <label>RUTA AÉREA</label>
+            <div class="val">BOG (Bogotá) ➔ NQU (Nuquí)</div>
+          </div>
+          <div class="pass-field">
+            <label>FECHA DE SALIDA</label>
+            <div class="val">14 de agosto de 2027</div>
+          </div>
+          <div class="pass-field">
+            <label>ESTADO DE EXPEDICIÓN</label>
+            <div class="val status-ok">CONFIRMADO · CUPO ASEGURADO</div>
+          </div>
+        </div>
+
+        <!-- PLANES INCLUIDOS -->
+        <div class="pass-itinerary">
+          <div class="pass-itin-title">
+            <span>🌿 PROGRAMA OFICIAL DE ACTIVIDADES (100% INCLUIDO)</span>
+            <small>Todos los participantes realizan el circuito completo</small>
+          </div>
+          <div class="pass-plan-grid">
+            <div class="plan-pill">
+              <span class="pill-icon">✈️</span>
+              <div class="pill-info">
+                <strong>Vuelo KT 0815 BOG–NQU</strong>
+                <small>Chárter ATR 42-500 + 15 kg de bodega</small>
+              </div>
+            </div>
+            <div class="plan-pill">
+              <span class="pill-icon">🐋</span>
+              <div class="pill-info">
+                <strong>Avistamiento de Ballenas</strong>
+                <small>Safari en lancha en el Golfo de Tribugá</small>
+              </div>
+            </div>
+            <div class="plan-pill">
+              <span class="pill-icon">🐢</span>
+              <div class="pill-info">
+                <strong>Liberación de Tortugas</strong>
+                <small>Jornada nocturna en Playa Guachalito</small>
+              </div>
+            </div>
+            <div class="plan-pill">
+              <span class="pill-icon">🌿</span>
+              <div class="pill-info">
+                <strong>Sendero y La Cascada</strong>
+                <small>Caminata en selva húmeda y pozos de agua dulce</small>
+              </div>
+            </div>
+            <div class="plan-pill">
+              <span class="pill-icon">♨️</span>
+              <div class="pill-info">
+                <strong>Termales del Río Coquí</strong>
+                <small>Navegación tradicional en canoa y baño termal</small>
+              </div>
+            </div>
+            <div class="plan-pill">
+              <span class="pill-icon">🛖</span>
+              <div class="pill-info">
+                <strong>Eco-Lodge & Sabores</strong>
+                <small>Alojamiento frente al mar y comida del Pacífico</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR & VERIFICACIÓN -->
+        <div class="pass-foot-wrap">
+          <div class="pass-qr-box">
+            <div id="passportQr"></div>
+            <small>Escanear para validar</small>
+          </div>
+          <div class="pass-foot-text">
+            <h5>CREDENCIAL DE ACCESO UNIVERSITARIO & COMUNITARIO</h5>
+            <p>Este pasaporte digital autoriza el abordaje en el vuelo chárter de Kuntur Airlines y el acceso prioritario a todas las lanchas, senderos y reservas de Nuquí Viva Expediciones.</p>
+            <div class="pass-security-seal">
+              <span>CERTIFICADO BIOGEOGRÁFICO DEL PACÍFICO</span>
+              <span class="seal-num" id="passSecurityCode">NV-VERIFIED-2027</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="passport-actions">
+        <button class="btn btn-gold" id="btnDownloadPass" type="button" onclick="downloadPassport()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Guardar Pasaporte en Celular (PNG)
+        </button>
+        <button class="btn btn-ghost" id="btnShareWa" type="button" onclick="sharePassportWhatsApp()" style="background:#25D366;border-color:#25D366;color:#fff">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.983.537 1.83.821 2.796.821 3.181 0 5.767-2.586 5.767-5.766.001-3.182-2.585-5.767-5.767-5.767zm0 10.455c-.868 0-1.637-.24-2.315-.67l-.166-.105-1.574.413.42-1.534-.112-.178c-.469-.747-.716-1.579-.716-2.615.001-2.583 2.102-4.684 4.687-4.684 2.583 0 4.685 2.101 4.685 4.684 0 2.584-2.102 4.689-4.685 4.689z"/></svg>
+          Compartir por WhatsApp
+        </button>
+        <a href="checkin.html" class="btn btn-ghost" style="border-color:var(--gold);color:var(--gold-soft)">
+          ✈️ Realizar Check-in de Vuelo (KT 0815)
+        </a>
+        <button class="btn btn-ghost" id="resetQuote" type="button" style="opacity:.75">
+          ← Realizar otra solicitud
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -1029,12 +1300,12 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
   });
 
   const pkgData = {
-    esencial: {name:'Nuquí Esencial', price:980000},
+    explora:  {name:'Expedición Integral (Todos los Planes)', price:2480000},
     ballenas: {name:'Ballenas & Tortugas', price:1590000},
-    explora:  {name:'Exploración Total', price:2480000}
+    esencial: {name:'Nuquí Esencial', price:980000}
   };
   const seasonData = {
-    alta:  {label:'Temporada alta', mult:1.08, pct:'+8%'},
+    alta:  {label:'Temporada alta (14 Ago 2027)', mult:1.08, pct:'+8%'},
     media: {label:'Temporada media', mult:1, pct:'0%'},
     baja:  {label:'Temporada baja', mult:0.92, pct:'−8%'}
   };
@@ -1049,9 +1320,10 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
   document.getElementById('travPlus').addEventListener('click', () => { travelers = Math.min(8, travelers+1); travVal.textContent = travelers; updateQuote(); });
 
   function updateQuote(){
-    const pkgKey = form.querySelector('input[name="pkg"]:checked').value;
-    const pkg = pkgData[pkgKey];
-    const sm = seasonData[document.getElementById('season').value];
+    const pkgChecked = form.querySelector('input[name="pkg"]:checked');
+    const pkgKey = pkgChecked ? pkgChecked.value : 'explora';
+    const pkg = pkgData[pkgKey] || pkgData.explora;
+    const sm = seasonData[document.getElementById('season').value] || seasonData.alta;
     let addonsSum = 0; const addonLines = [];
     form.querySelectorAll('.addon:checked').forEach(a => {
       const p = +a.dataset.price; addonsSum += p;
@@ -1081,16 +1353,91 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
     if (!mailOk) { mailEl.classList.add('err'); bad = true; }
     if (bad) { errEl.style.display = 'block'; return; }
     errEl.style.display = 'none';
-    document.getElementById('succTitle').textContent = '¡Listo, ' + nameEl.value.trim().split(' ')[0] + '!';
-    document.getElementById('succTotal').textContent = cop.format(lastTotal);
+
+    const fullName = nameEl.value.trim();
+    const firstName = fullName.split(' ')[0];
+    const passCode = 'NV-2027-' + Math.floor(1000 + Math.random() * 9000);
+    const secCode = 'NV-VERIFIED-' + Math.floor(100000 + Math.random() * 900000);
+
+    window.currentPassengerName = fullName;
+    window.currentPassCode = passCode;
+
+    document.getElementById('succTitle').textContent = '¡Listo, ' + firstName + '!';
+    document.getElementById('passName').textContent = fullName.toUpperCase();
+    document.getElementById('passCode').textContent = passCode;
+    document.getElementById('passSecurityCode').textContent = secCode;
+
+    // Generar código QR
+    const qrContainer = document.getElementById('passportQr');
+    qrContainer.innerHTML = '';
+    const qrPayload = 'NUQUI VIVA EXPEDICIONES\nPASAPORTE OFICIAL: ' + passCode + '\nEXPEDICIONARIO: ' + fullName.toUpperCase() + '\nVUELO: KT 0815 ATR 42-500\nRUTA: BOG-NQU\nFECHA: 14-AGO-2027\nESTADO: TODOS LOS PLANES INCLUIDOS\n(Ballenas, Tortugas, Cascada, Termales Coquí, Vuelo)';
+    
+    if (typeof QRCode !== 'undefined') {
+      new QRCode(qrContainer, {
+        text: qrPayload,
+        width: 105,
+        height: 105,
+        colorDark: "#07262d",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
     form.style.display = 'none';
-    document.getElementById('quoteSuccess').classList.add('show');
-    document.getElementById('quoteSuccess').scrollIntoView({behavior:'smooth', block:'center'});
+    const succ = document.getElementById('quoteSuccess');
+    succ.classList.add('show');
+    succ.scrollIntoView({behavior:'smooth', block:'start'});
   });
+
+  window.downloadPassport = function() {
+    const card = document.getElementById('passportCard');
+    if (!card) return;
+    const btn = document.getElementById('btnDownloadPass');
+    const origHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.innerHTML = '⏳ Procesando imagen...';
+      btn.disabled = true;
+    }
+
+    if (typeof html2canvas !== 'undefined') {
+      html2canvas(card, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#07262d'
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'Pasaporte-NuquiViva-' + (window.currentPassengerName || 'Expedicion').replace(/\s+/g, '_') + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
+      }).catch(err => {
+        console.error(err);
+        alert('Se generó tu pasaporte en pantalla. Puedes tomar una captura de pantalla.');
+        if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
+      });
+    } else {
+      window.print();
+      if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
+    }
+  };
+
+  window.sharePassportWhatsApp = function() {
+    const name = window.currentPassengerName || 'Expedicionario';
+    const code = window.currentPassCode || 'NV-2027';
+    const text = '🌊✈️ *¡Mi Pasaporte Oficial Nuquí Viva Expediciones!* 🐋🌿\n\n' +
+      '👤 *Expedicionario:* ' + name + '\n' +
+      '🎫 *Código Oficial:* ' + code + '\n' +
+      '✈️ *Vuelo:* Kuntur Airlines KT 0815 (BOG ➔ NQU)\n' +
+      '📅 *Fecha:* 14 de agosto de 2027\n' +
+      '✨ *Expedición:* Todos los planes incluidos (Ballenas Jorobadas, Liberación de Tortugas, La Cascada, Termales del Río Coquí y Vuelo Chárter ATR 42-500).\n\n' +
+      'Ver credencial en vivo: https://gangster-pc.github.io/kuntur-airlines/agencia.html';
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+  };
 
   document.getElementById('resetQuote').addEventListener('click', () => {
     document.getElementById('quoteSuccess').classList.remove('show');
     form.style.display = 'grid';
+    form.scrollIntoView({behavior:'smooth', block:'start'});
   });
 })();
 </script>
