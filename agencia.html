@@ -2,7 +2,11 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#07262d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
 <title>Nuquí Viva Expediciones · Agencia de viajes al Pacífico colombiano</title>
 <meta name="description" content="Agencia de viajes especializada en Nuquí, Chocó: ballenas jorobadas, tortugas, La Cascada y el Golfo de Tribugá. Vuela con Kuntur Airlines Bogotá–Nuquí.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fraunces/latin-400-normal.css">
@@ -25,12 +29,20 @@
   --serif:'Fraunces',Georgia,serif; --sans:'Outfit',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);color:var(--txt);background:var(--paper);overflow-x:hidden;line-height:1.6}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  color:var(--txt);
+  background:var(--paper);
+  overflow-x:hidden;
+  line-height:1.6;
+  -webkit-tap-highlight-color:transparent;
+  padding-bottom:env(safe-area-inset-bottom);
+}
 ::selection{background:var(--gold);color:var(--ink)}
 img,svg{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;cursor:pointer;border:none;background:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 section{scroll-margin-top:86px}
 body.no-scroll{overflow:hidden}
 
@@ -38,8 +50,8 @@ body.no-scroll{overflow:hidden}
 [data-reveal].revealed{opacity:1;transform:none}
 
 /* ---------- Nav ---------- */
-.nav{position:fixed;inset:0 0 auto 0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:14px 4vw;transition:background .4s,box-shadow .4s,padding .4s}
-.nav.scrolled{background:rgba(7,38,45,.92);backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(0,0,0,.25);padding:9px 4vw}
+.nav{position:fixed;inset:0 0 auto 0;z-index:90;display:flex;align-items:center;justify-content:space-between;padding:max(12px, env(safe-area-inset-top)) 4vw 12px;transition:background .4s,box-shadow .4s,padding .4s}
+.nav.scrolled{background:rgba(7,38,45,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(0,0,0,.25);padding:max(8px, env(safe-area-inset-top)) 4vw 8px}
 .brand{display:flex;align-items:center;gap:12px;color:var(--cream)}
 .brand-mark{width:46px;height:46px;flex:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.35));transition:transform .4s}
 .brand:hover .brand-mark{transform:rotate(-8deg) scale(1.06)}
@@ -53,12 +65,13 @@ body.no-scroll{overflow:hidden}
 .nav-cta{background:var(--gold);color:var(--ink)!important;padding:10px 20px;border-radius:100px;font-weight:600}
 .nav-cta::after{display:none}
 .nav-cta:hover{background:var(--gold-soft)}
-.burger{display:none;flex-direction:column;gap:6px;padding:8px;z-index:100}
+.nav-mob-cta{display:none;background:var(--gold);color:var(--ink)!important;font-size:.76rem;letter-spacing:.03em;font-weight:700;padding:6px 14px;border-radius:100px;box-shadow:0 4px 14px rgba(0,0,0,.25);align-items:center;gap:4px;touch-action:manipulation}
+.burger{display:none;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:44px;height:44px;padding:8px;z-index:100;touch-action:manipulation}
 .burger span{width:26px;height:2px;background:var(--cream);transition:.35s}
-.burger.open span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger.open span:nth-child(2){opacity:0}
-.burger.open span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
-.mobile-menu{position:fixed;inset:0;background:linear-gradient(180deg,var(--sea-deep),var(--jungle-deep));z-index:80;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;opacity:0;pointer-events:none;transition:opacity .4s}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;inset:0;background:linear-gradient(180deg,var(--sea-deep),var(--jungle-deep));z-index:80;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;gap:10px;opacity:0;pointer-events:none;transition:opacity .35s ease;padding:calc(env(safe-area-inset-top) + 72px) 24px calc(env(safe-area-inset-bottom) + 30px);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mobile-menu.open{opacity:1;pointer-events:auto}
 .mobile-menu a{color:var(--cream);font-family:var(--serif);font-size:1.7rem;padding:8px;opacity:0;transform:translateY(18px);transition:.5s}
 .mobile-menu.open a{opacity:1;transform:none}
@@ -275,15 +288,15 @@ body.no-scroll{overflow:hidden}
 .stepper button{width:46px;height:46px;font-size:1.3rem;color:var(--jungle);transition:.25s}
 .stepper button:hover{background:#fdf6e6}
 .stepper output{width:60px;text-align:center;font-weight:700;font-size:1.15rem;color:var(--ink)}
-.f-select{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:.95rem;background:#fff;color:var(--ink);outline:none;transition:.3s}
+.f-select{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:16px;background:#fff;color:var(--ink);outline:none;transition:.3s;-webkit-appearance:none;appearance:none}
 .f-select:focus,.f-input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(217,164,65,.18)}
 .addon-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.addon-item{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer;transition:.3s;background:#fff;font-size:.88rem}
+.addon-item{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer;transition:.3s;background:#fff;font-size:.88rem;touch-action:manipulation}
 .addon-item:hover{border-color:var(--gold)}
-.addon-item input{accent-color:var(--jungle);width:17px;height:17px}
+.addon-item input{accent-color:var(--jungle);width:18px;height:18px}
 .addon-item b{color:var(--ink);font-weight:600}
 .addon-item small{display:block;color:var(--muted);font-weight:300;font-size:.76rem}
-.f-input{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:.95rem;background:#fff;color:var(--ink);outline:none;transition:.3s}
+.f-input{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:16px;background:#fff;color:var(--ink);outline:none;transition:.3s;-webkit-appearance:none;appearance:none}
 .f-input.err{border-color:#c0392b;animation:shake .4s}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .f-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -456,50 +469,182 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
 .socials a:hover{background:var(--gold);border-color:var(--gold);color:var(--ink);transform:translateY(-4px)}
 .foot-brand .brand-mark{width:56px;height:56px}
 
-/* ---------- WhatsApp ---------- */
-.wa-float{position:fixed;right:26px;bottom:26px;z-index:70;width:60px;height:60px;border-radius:50%;background:#25d366;display:grid;place-items:center;color:#fff;box-shadow:0 14px 34px rgba(37,211,102,.45);transition:.3s}
-.wa-float:hover{transform:scale(1.1) translateY(-4px)}
+/* ---------- WhatsApp Flotante ---------- */
+.wa-float{
+  position:fixed;
+  right:max(16px, env(safe-area-inset-right));
+  bottom:max(18px, calc(env(safe-area-inset-bottom) + 12px));
+  z-index:70;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:#25d366;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  box-shadow:0 12px 30px rgba(37,211,102,.45);
+  transition:.3s;
+  touch-action:manipulation;
+}
+.wa-float:hover{transform:scale(1.08) translateY(-3px)}
+.wa-float:active{transform:scale(.95)}
 .wa-float::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(37,211,102,.5);animation:ping 2s ease-out infinite}
 
-/* ---------- Responsive ---------- */
+/* ---------- Responsive (Tablets, Android & iPhone) ---------- */
 @media(max-width:1024px){
   .exp-card.tall{grid-column:1/13;grid-row:auto;min-height:440px}
   .exp-card.s-a,.exp-card.s-b{grid-column:1/13;grid-row:auto}
   .season-grid{grid-template-columns:repeat(2,1fr)}
   .dest-grid,.res-grid{grid-template-columns:1fr}
-  .summary{position:static}
+  .summary{position:static;margin-top:24px}
   .foot-grid{grid-template-columns:1fr 1fr}
   .air-stats{grid-template-columns:repeat(2,1fr)}
   .postales{grid-template-columns:1fr;max-width:520px;margin-left:auto;margin-right:auto}
   .postal:nth-child(2){transform:rotate(1.6deg)}
   .fleet-one{grid-template-columns:1fr}
-  .fleet-visual{min-height:320px}
+  .fleet-visual{min-height:300px}
 }
+
 @media(max-width:860px){
   .nav-links{display:none}
   .burger{display:flex}
+  .nav-mob-cta{display:inline-flex}
   .hero-side{display:none}
+  .nav{padding:max(10px, env(safe-area-inset-top)) 4vw 10px}
+  .nav.scrolled{padding:max(8px, env(safe-area-inset-top)) 4vw 8px}
 }
+
 @media(max-width:720px){
   .timeline::before{left:14px}
   .tl-item{grid-template-columns:1fr}
   .tl-dot{left:14px}
   .tl-item:nth-child(odd) .tl-card,.tl-item:nth-child(even) .tl-card{grid-column:1;margin:0 0 0 44px;text-align:left;justify-self:start;max-width:none}
 }
+
 @media(max-width:640px){
-  .section{padding:80px 0}
-  .stats-grid{grid-template-columns:repeat(2,1fr);gap:18px}
-  .stat{border-left:none}
-  .season-grid,.addon-grid,.f-row{grid-template-columns:1fr}
+  .section{padding:70px 0}
+  .wrap{padding:0 5vw}
+  .h2{font-size:clamp(1.85rem, 6.8vw, 2.5rem);line-height:1.15}
+  .lead{font-size:.95rem;margin-top:14px}
+  .hero{min-height:100svh;height:auto;padding-top:calc(env(safe-area-inset-top) + 76px);padding-bottom:calc(env(safe-area-inset-bottom) + 26px)}
+  .hero-inner{padding:0 5vw 4vh}
+  .hero-title{font-size:clamp(3.4rem, 14vw, 8.5rem);line-height:.92}
+  .hero-sub{font-size:clamp(1.05rem, 3.8vw, 1.4rem);margin-top:8px}
+  .hero-tag{font-size:.9rem;margin-top:12px;line-height:1.55}
+  .hero-ctas{flex-direction:column;width:100%;gap:12px;margin-top:24px}
+  .hero-ctas .btn{width:100%;justify-content:center;padding:14px 20px;font-size:.9rem}
+  .scroll-cue{display:none}
+
+  /* Stats */
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+  .stat{border-left:none;padding:12px 6px;background:rgba(255,255,255,.5);border-radius:14px}
+  .stat-num{font-size:clamp(2rem, 8vw, 2.8rem)}
+  
+  /* Experiencias */
+  .exp-grid{gap:18px;margin-top:36px}
+  .exp-card{min-height:300px;border-radius:18px}
+  .exp-card.tall{min-height:420px}
+  .exp-body{padding:22px 18px}
+  .exp-body h3{font-size:1.45rem}
   .exp-card.wide .exp-body{grid-template-columns:1fr}
-  .exp-card.wide .exp-side{min-height:240px}
-  .foot-grid{grid-template-columns:1fr}
-  .form-card{padding:26px}
-  .summary{padding:26px}
-  .air-stats{grid-template-columns:1fr 1fr;gap:12px}
-  .fleet-info{padding:28px}
-  .kuntur-emblem{width:110px;height:110px}
-  .brand-mark{width:40px;height:40px}
+  .exp-card.wide .exp-side{min-height:220px}
+  .exp-card.wide .exp-text{padding:26px 20px}
+
+  /* Destino & Postales */
+  .dest-grid{gap:32px}
+  .dest-chips{gap:10px;margin-top:22px}
+  .chip{padding:14px;border-radius:14px;gap:12px}
+  .map-panel{padding:12px;border-radius:20px}
+  .postales{gap:20px;margin-top:40px}
+  .postal{transform:none !important;border-width:5px;border-radius:16px}
+  .postal img{height:220px}
+
+  /* Flota Kuntur */
+  .kuntur-head{gap:16px;text-align:center;justify-content:center}
+  .kuntur-emblem{width:100px;height:100px;margin:0 auto}
+  .route-row{flex-direction:column;gap:10px;margin-top:24px}
+  .route{width:100%;justify-content:center;padding:12px 14px}
+  .air-stats{grid-template-columns:1fr 1fr;gap:12px;margin:32px 0 26px}
+  .air-stat{padding:16px 10px;border-radius:16px}
+  .air-stat .stat-num{font-size:1.8rem}
+  .fleet-one{padding:16px;border-radius:22px;gap:16px}
+  .fleet-visual{aspect-ratio:16/10;min-height:unset;border-radius:14px}
+  .fleet-info{padding:8px 4px}
+  .fleet-info h3{font-size:1.7rem}
+  .fleet-model{font-size:.85rem}
+  .fleet-note{font-size:.82rem;margin-top:10px}
+
+  /* Testimonios */
+  .quote-box{margin-top:26px}
+  .slide blockquote{font-size:1.15rem;line-height:1.55}
+  .slider-nav{margin-top:28px}
+
+  /* Reserva & Formulario */
+  .form-card{padding:22px 18px;border-radius:20px}
+  .summary{padding:24px 20px;border-radius:20px}
+  .pkg-body{padding:14px 16px;border-radius:14px}
+  .pkg-body b{font-size:.92rem}
+  .pkg-body small{font-size:.76rem}
+  .pkg-price{font-size:.95rem}
+  .season-grid,.addon-grid,.f-row{grid-template-columns:1fr;gap:10px}
+  .addon-item{padding:12px 14px;border-radius:12px}
+  .stepper{width:100%;justify-content:space-between}
+  .stepper button{width:50px;height:48px}
+  .stepper output{flex:1;text-align:center}
+  .f-select,.f-input{padding:14px;font-size:16px !important}
+  .quote-total strong{font-size:1.8rem}
+
+  /* Pasaporte Digital en Pantallas Pequeñas */
+  .success{padding:22px 14px;border-radius:20px}
+  .success-top-badge .ok{width:50px;height:50px;font-size:1.4rem}
+  .success-top-badge h3{font-size:1.5rem}
+  .succ-sub{font-size:.84rem}
+  .passport-card{border-radius:18px;border-width:1.5px}
+  .pass-top-bar{padding:10px 14px;flex-direction:row;justify-content:space-between;align-items:center}
+  .pass-condor{width:28px;height:28px}
+  .pass-brand-tag strong{font-size:.68rem}
+  .pass-brand-tag small{font-size:.54rem}
+  .pass-stamp{padding:4px 10px;font-size:.62rem}
+  .pass-header{padding:16px 14px 12px;gap:10px}
+  .pass-title{font-size:1.25rem}
+  .pass-dest{font-size:.72rem}
+  .pass-badge-gold{padding:6px 10px;border-radius:10px}
+  .pass-badge-gold span{font-size:.52rem}
+  .pass-badge-gold strong{font-size:.72rem}
+  .pass-details-grid{grid-template-columns:1fr 1fr;padding:14px;gap:10px}
+  .pass-field label{font-size:.55rem}
+  .pass-field .val{font-size:.84rem}
+  .pass-itinerary{padding:14px}
+  .pass-itin-title span{font-size:.68rem}
+  .pass-itin-title small{font-size:.62rem}
+  .pass-plan-grid{grid-template-columns:1fr;gap:8px}
+  .plan-pill{padding:8px 10px;gap:10px;border-radius:10px}
+  .pill-icon{font-size:1.2rem}
+  .pill-info strong{font-size:.74rem}
+  .pill-info small{font-size:.63rem}
+  .pass-foot-wrap{padding:14px;flex-direction:column;text-align:center;gap:14px}
+  .pass-qr-box{margin:0 auto;padding:8px;border-radius:12px}
+  .pass-foot-text h5{font-size:.72rem}
+  .pass-foot-text p{font-size:.69rem;line-height:1.4}
+  .pass-security-seal{justify-content:center;gap:8px;font-size:.58rem}
+  .passport-actions{flex-direction:column;gap:10px;margin-top:20px}
+  .passport-actions .btn{width:100%;justify-content:center;font-size:.88rem;padding:13px 18px;min-height:48px}
+
+  /* Footer */
+  .foot-grid{grid-template-columns:1fr;gap:36px}
+  .foot-bottom{flex-direction:column;text-align:center;gap:10px;font-size:.74rem}
+  .brand-mark{width:38px;height:38px}
+  .brand-name{font-size:1.05rem}
+}
+
+@media(max-width:390px){
+  /* Optimización para iPhone SE, iPhone mini y Android 360px */
+  .hero-title{font-size:clamp(3rem, 13vw, 4.2rem)}
+  .pass-details-grid{grid-template-columns:1fr;gap:8px}
+  .pass-top-bar{flex-direction:column;align-items:flex-start;gap:8px}
+  .pass-header{flex-direction:column}
+  .stepper button{width:44px;height:44px}
+  .stats-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -584,7 +729,10 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
       <li><a href="#reserva" class="nav-cta" style="background:var(--gold);color:var(--ink)!important;font-weight:700">🎫 Pasaporte Digital</a></li>
     </ul>
   </nav>
-  <button class="burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="#reserva" class="nav-mob-cta">🎫 Pasaporte</a>
+    <button class="burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
+  </div>
 </header>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#inicio">Inicio</a>
@@ -1408,14 +1556,23 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
 
     if (typeof html2canvas !== 'undefined') {
       html2canvas(card, {
-        scale: 2,
+        scale: Math.min(2, window.devicePixelRatio || 2),
         useCORS: true,
-        backgroundColor: '#07262d'
+        allowTaint: true,
+        backgroundColor: '#07262d',
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: card.scrollWidth,
+        windowHeight: card.scrollHeight
       }).then(canvas => {
+        const dataUrl = canvas.toDataURL('image/png');
+        const filename = 'Pasaporte-NuquiViva-' + (window.currentPassengerName || 'Expedicion').replace(/\s+/g, '_') + '.png';
         const link = document.createElement('a');
-        link.download = 'Pasaporte-NuquiViva-' + (window.currentPassengerName || 'Expedicion').replace(/\s+/g, '_') + '.png';
-        link.href = canvas.toDataURL('image/png');
+        link.download = filename;
+        link.href = dataUrl;
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
         if (btn) { btn.innerHTML = origHtml; btn.disabled = false; }
       }).catch(err => {
         console.error(err);
@@ -1437,8 +1594,21 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
       '✈️ *Vuelo:* Kuntur Airlines KT 0815 (BOG ➔ NQU)\n' +
       '📅 *Fecha:* 14 de agosto de 2027\n' +
       '✨ *Expedición:* Todos los planes incluidos (Ballenas Jorobadas, Liberación de Tortugas, La Cascada, Termales del Río Coquí y Vuelo Chárter ATR 42-500).\n\n' +
-      'Ver credencial en vivo: https://gangster-pc.github.io/kuntur-airlines/agencia.html';
-    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+      'Ver credencial en vivo: https://gangster-pc.github.io/kuntur-airlines/agencia.html#reserva';
+
+    if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      navigator.share({
+        title: 'Pasaporte Nuquí Viva Expediciones',
+        text: text,
+        url: 'https://gangster-pc.github.io/kuntur-airlines/agencia.html#reserva'
+      }).catch(err => {
+        if (err.name !== 'AbortError') {
+          window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+        }
+      });
+    } else {
+      window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+    }
   };
 
   document.getElementById('resetQuote').addEventListener('click', () => {
