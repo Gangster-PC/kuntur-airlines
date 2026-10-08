@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Demo · Pasaporte de Expedición Digital · Nuquí Viva</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fraunces/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fraunces/latin-700-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/outfit/latin-700-normal.css">
+<style>
+:root{
+  --ink:#0b2622; --sea-deep:#07262d; --sea:#0e4750; --jungle-deep:#0d3529; --jungle:#1c5c44;
+  --cream:#f6efe1; --cream-2:#efe4cd; --paper:#fbf7ec; --gold:#d9a441; --gold-soft:#e8b95e;
+  --kmaroon:#4a0c10; --kgold:#d9a95f; --kgold-soft:#e8c07a;
+  --serif:'Fraunces',Georgia,serif; --sans:'Outfit',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--sans);
+  background:radial-gradient(ellipse at 50% 10%, #0e4750 0%, #07262d 60%, #051a1f 100%);
+  color:var(--cream);
+  min-height:100vh;
+  padding:24px 16px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.top-nav{
+  width:100%;
+  max-width:860px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(217,164,65,.25);
+}
+.btn-back{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--gold-soft);
+  text-decoration:none;
+  font-size:.85rem;
+  font-weight:600;
+  transition:.25s;
+}
+.btn-back:hover{color:#fff;transform:translateX(-3px)}
+
+.demo-badge{
+  background:rgba(217,164,65,.18);
+  border:1px solid var(--gold);
+  color:var(--gold-soft);
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.2em;
+  padding:4px 14px;
+  border-radius:100px;
+  text-transform:uppercase;
+}
+
+.layout-grid{
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+  gap:32px;
+  width:100%;
+  max-width:880px;
+  align-items:start;
+}
+
+@media(max-width:768px){
+  .layout-grid{grid-template-columns:1fr}
+}
+
+/* PANEL DE CONTROL / GENERADOR */
+.control-card{
+  background:rgba(13,53,41,.65);
+  border:1px solid rgba(217,164,65,.35);
+  border-radius:24px;
+  padding:26px 22px;
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+  backdrop-filter:blur(10px);
+}
+.control-card h2{
+  font-family:var(--serif);
+  font-size:1.45rem;
+  color:var(--gold-soft);
+  margin-bottom:6px;
+}
+.control-card p{
+  font-size:.84rem;
+  color:rgba(246,239,225,.75);
+  margin-bottom:20px;
+}
+
+.form-group{margin-bottom:14px}
+.form-group label{
+  display:block;
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--gold);
+  font-weight:700;
+  margin-bottom:6px;
+}
+.form-input, .form-select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(217,164,65,.3);
+  background:rgba(7,38,45,.8);
+  color:#fff;
+  font-family:inherit;
+  font-size:.92rem;
+  outline:none;
+  transition:.3s;
+}
+.form-input:focus, .form-select:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(217,164,65,.2);
+}
+
+.exp-checkboxes{
+  display:grid;
+  gap:8px;
+  margin-top:6px;
+}
+.exp-check-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(7,38,45,.6);
+  border:1px solid rgba(217,164,65,.2);
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:.82rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.exp-check-item:hover{border-color:var(--gold)}
+.exp-check-item input{accent-color:var(--gold);width:16px;height:16px}
+
+.btn-generate{
+  width:100%;
+  background:linear-gradient(135deg, #f6e2b3 0%, #d5a75c 60%, #a9762c 100%);
+  color:#1a0303;
+  font-weight:800;
+  font-size:.94rem;
+  padding:14px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:18px;
+  box-shadow:0 10px 24px rgba(217,164,65,.35);
+  transition:.3s;
+}
+.btn-generate:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(217,164,65,.5)}
+
+/* VOUCHER / PASAPORTE DIGITAL */
+.preview-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+}
+
+.passport-card{
+  width:100%;
+  max-width:390px;
+  border-radius:24px;
+  background:linear-gradient(165deg, #0d382d 0%, #07262d 55%, #05161a 100%);
+  border:2.5px solid var(--gold);
+  box-shadow:0 25px 60px rgba(0,0,0,.65);
+  overflow:hidden;
+  position:relative;
+  color:var(--cream);
+}
+.passport-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(circle at 80% 20%, rgba(217,164,65,.15) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+/* CABECERA PASAPORTE */
+.pass-head{
+  background:linear-gradient(135deg, #07262d, #0d3529);
+  border-bottom:2px dashed rgba(217,164,65,.4);
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+.pass-sub{
+  font-size:.65rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--gold-soft);
+  font-weight:700;
+}
+.pass-title{
+  font-family:var(--serif);
+  font-size:1.6rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:#fff;
+  margin:4px 0 2px;
+}
+.pass-pill{
+  display:inline-block;
+  background:rgba(217,164,65,.2);
+  border:1px solid var(--gold);
+  color:var(--gold-soft);
+  font-size:.62rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:3px 12px;
+  border-radius:100px;
+  font-weight:700;
+  margin-top:4px;
+}
+
+/* CUERPO DEL PASAPORTE */
+.pass-body{padding:22px 20px}
+.pass-pax{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  border-bottom:1px solid rgba(217,164,65,.2);
+  padding-bottom:12px;
+  margin-bottom:14px;
+}
+.pax-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.pax-val{font-family:var(--serif);font-size:1.25rem;font-weight:700;color:#fff}
+.pnr-code{font-family:monospace;font-size:1.05rem;font-weight:800;letter-spacing:.18em;color:var(--gold-soft)}
+
+.flight-banner{
+  background:rgba(74,12,16,.45);
+  border:1px solid rgba(217,169,95,.4);
+  border-radius:12px;
+  padding:10px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+.fl-brand{font-size:.68rem;letter-spacing:.18em;font-weight:800;color:var(--kgold-soft)}
+.fl-flight{font-size:.88rem;font-weight:700;color:#fff}
+
+.itinerary-list{
+  display:grid;
+  gap:10px;
+  margin-bottom:18px;
+}
+.itin-day{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  font-size:.8rem;
+  background:rgba(255,255,255,.04);
+  padding:8px 10px;
+  border-radius:10px;
+  border-left:3px solid var(--gold);
+}
+.itin-tag{font-weight:800;color:var(--gold-soft);white-space:nowrap}
+.itin-desc{color:rgba(246,239,225,.9)}
+
+/* PIE CON QR */
+.pass-foot{
+  background:rgba(0,0,0,.35);
+  border-top:2px dashed rgba(217,164,65,.4);
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.qr-frame{
+  width:82px;
+  height:82px;
+  background:#fff;
+  border-radius:10px;
+  padding:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.qr-frame canvas, .qr-frame img{width:100% !important;height:100% !important}
+.eco-stamp{
+  font-size:.72rem;
+  color:rgba(246,239,225,.75);
+  line-height:1.4;
+}
+.eco-stamp b{color:var(--gold-soft);display:block;font-size:.78rem}
+
+/* BOTONES DE EXPORTACIÓN */
+.export-actions{
+  display:flex;
+  gap:10px;
+  width:100%;
+  max-width:390px;
+}
+.btn-dl{
+  flex:1;
+  padding:12px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:.82rem;
+  border:none;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:.25s;
+}
+.btn-dl.gold{background:var(--gold);color:var(--ink)}
+.btn-dl.wa{background:#25d366;color:#fff}
+.btn-dl:hover{transform:translateY(-2px)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="agencia.html" class="btn-back">← Volver a la Web de la Agencia</a>
+  <span class="demo-badge">Módulo de Prueba Exclusivo</span>
+</nav>
+
+<div class="layout-grid">
+  <!-- CONTROL INTERACTIVO -->
+  <section class="control-card">
+    <h2>Personaliza tu Expedición</h2>
+    <p>Simula los datos del estudiante o pasajero para generar su Pasaporte Oficial con código QR e itinerario personalizado.</p>
+    
+    <div class="form-group">
+      <label>Nombre del Viajero / Estudiante</label>
+      <input type="text" id="inName" class="form-input" value="Diego Fonseca" placeholder="Ej: Valentina Rojas">
+    </div>
+
+    <div class="form-group">
+      <label>Plan de Viaje</label>
+      <select id="inPlan" class="form-select">
+        <option value="ballenas" selected>🐋 Ballenas &amp; Tortugas (4D / 3N)</option>
+        <option value="esencial">🌿 Nuquí Esencial (3D / 2N)</option>
+        <option value="explora">🛶 Exploración Total Tribugá (6D / 5N)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Fecha de Expedición</label>
+      <input type="text" id="inDate" class="form-input" value="14 - 18 de agosto de 2027">
+    </div>
+
+    <div class="form-group">
+      <label>Experiencias Adicionales</label>
+      <div class="exp-checkboxes">
+        <label class="exp-check-item">
+          <input type="checkbox" id="chkBallenas" checked>
+          <span>Avistamiento de Ballenas Jorobadas</span>
+        </label>
+        <label class="exp-check-item">
+          <input type="checkbox" id="chkTortugas" checked>
+          <span>Liberación Nocturna de Tortugas</span>
+        </label>
+        <label class="exp-check-item">
+          <input type="checkbox" id="chkCascada" checked>
+          <span>Caminata Selvática a La Cascada</span>
+        </label>
+        <label class="exp-check-item">
+          <input type="checkbox" id="chkTermales">
+          <span>Baño en Termales del Río Coquí</span>
+        </label>
+      </div>
+    </div>
+
+    <button type="button" class="btn-generate" onclick="updatePassport()">
+      <span>✨ Actualizar Pasaporte Digital</span>
+    </button>
+  </section>
+
+  <!-- VISTA PREVIA DEL PASAPORTE / VOUCHER -->
+  <section class="preview-wrap">
+    <div class="passport-card" id="passportCard">
+      <!-- CABECERA -->
+      <div class="pass-head">
+        <span class="pass-sub">EXPEDICIÓN OFICIAL · CHOCÓ</span>
+        <h1 class="pass-title">NUQUÍ VIVA</h1>
+        <div class="pass-pill" id="cardPlanTag">BALLENAS &amp; TORTUGAS · 4D/3N</div>
+      </div>
+
+      <!-- CUERPO -->
+      <div class="pass-body">
+        <div class="pass-pax">
+          <div>
+            <div class="pax-label">Titular de la Expedición</div>
+            <div class="pax-val" id="cardPaxName">Diego Fonseca</div>
+          </div>
+          <div style="text-align:right">
+            <div class="pax-label">Reserva Nuquí</div>
+            <div class="pnr-code" id="cardCode">NV-7829</div>
+          </div>
+        </div>
+
+        <div class="flight-banner">
+          <div>
+            <div class="fl-brand">AEROLÍNEA OFICIAL · KUNTUR</div>
+            <div class="fl-flight">Vuelo KT 0815 · BOG ➔ NQU</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:.65rem;color:var(--kgold-soft);font-weight:700">ATR 42-500</div>
+            <div style="font-size:.76rem;color:#fff" id="cardDate">AUG 14, 2027</div>
+          </div>
+        </div>
+
+        <div class="itinerary-list" id="cardItinerary">
+          <!-- Inyectado dinámicamente -->
+        </div>
+      </div>
+
+      <!-- PIE CON QR -->
+      <div class="pass-foot">
+        <div class="qr-frame" id="cardQr"></div>
+        <div class="eco-stamp">
+          <b>🌱 Turismo 100% Responsable</b>
+          Huella de carbono compensada con siembra en el Chocó. Presenta este pasaporte al abordar y en el ecolodge.
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTONES DE DESCARGA Y COMPARTIR -->
+    <div class="export-actions">
+      <button type="button" class="btn-dl gold" onclick="downloadPassport()">
+        📥 Guardar Imagen en Celular
+      </button>
+      <button type="button" class="btn-dl wa" onclick="shareWhatsApp()">
+        📲 Enviar por WhatsApp
+      </button>
+    </div>
+  </section>
+</div>
+
+<script>
+function generateRandomCode() {
+  return 'NV-' + Math.floor(1000 + Math.random() * 9000);
+}
+
+let currentBookingCode = generateRandomCode();
+
+function updatePassport() {
+  const name = document.getElementById('inName').value.trim() || 'Viajero Nuquí';
+  const planVal = document.getElementById('inPlan').value;
+  const dateStr = document.getElementById('inDate').value.trim() || '14 de agosto de 2027';
+
+  document.getElementById('cardPaxName').innerText = name;
+  document.getElementById('cardDate').innerText = dateStr;
+  document.getElementById('cardCode').innerText = currentBookingCode;
+
+  // Plan título
+  let planTag = 'BALLENAS & TORTUGAS · 4D/3N';
+  if (planVal === 'esencial') planTag = 'NUQUÍ ESENCIAL · 3D/2N';
+  if (planVal === 'explora') planTag = 'EXPLORACIÓN TOTAL · 6D/5N';
+  document.getElementById('cardPlanTag').innerText = planTag;
+
+  // Itinerario dinámico
+  const itinBox = document.getElementById('cardItinerary');
+  itinBox.innerHTML = '';
+
+  const activities = [];
+  activities.push({ day: 'Día 1', text: 'Llegada en vuelo KT 0815, traslado en lancha a ecolodge y atardecer pacífico.' });
+  
+  if (document.getElementById('chkBallenas').checked) {
+    activities.push({ day: 'Día 2', text: 'Navegación al Golfo de Tribugá y avistamiento de ballenas jorobadas.' });
+  }
+  if (document.getElementById('chkCascada').checked) {
+    activities.push({ day: 'Día 3', text: 'Caminata guiada en selva húmeda y baño en La Cascada cristalina.' });
+  }
+  if (document.getElementById('chkTortugas').checked) {
+    activities.push({ day: 'Noche', text: 'Ritual comunitario de liberación de tortugas marinas al mar.' });
+  }
+  if (document.getElementById('chkTermales').checked) {
+    activities.push({ day: 'Extra', text: 'Expedición en canoa hacia los Termales ancestrales del Río Coquí.' });
+  }
+
+  activities.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'itin-day';
+    el.innerHTML = `<span class="itin-tag">${item.day}:</span> <span class="itin-desc">${item.text}</span>`;
+    itinBox.appendChild(el);
+  });
+
+  // Render QR
+  const qrBox = document.getElementById('cardQr');
+  qrBox.innerHTML = '';
+  new QRCode(qrBox, {
+    text: `NUQUI-VIVA|${currentBookingCode}|${name}|${planVal}|${dateStr}|KT0815`,
+    width: 74,
+    height: 74,
+    colorDark: "#07262d",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+}
+
+function downloadPassport() {
+  const card = document.getElementById('passportCard');
+  if (typeof html2canvas !== 'undefined') {
+    html2canvas(card, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#07262d'
+    }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `Pasaporte-NuquiViva-${document.getElementById('inName').value.replace(/\s+/g,'_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  } else {
+    alert('Mantén presionada la tarjeta para guardar la imagen.');
+  }
+}
+
+function shareWhatsApp() {
+  const name = document.getElementById('inName').value.trim();
+  const plan = document.getElementById('cardPlanTag').innerText;
+  const code = currentBookingCode;
+  const msg = encodeURIComponent(`¡Hola! Tengo mi Pasaporte Oficial de Expedición Nuquí Viva 🌿\n\nTitular: ${name}\nPlan: ${plan}\nReserva: ${code}\nVuelo: Kuntur Airlines KT 0815 (BOG ➔ NQU)\n\n¡Listo para la aventura en el Pacífico colombiano!`);
+  window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  updatePassport();
+});
+</script>
+</body>
+</html>
