@@ -911,9 +911,85 @@ function handleCheckin(e) {
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.M
     });
-  } catch(err){}
-
   document.getElementById('successScreen').classList.add('show');
+
+  // 4. Enviar automáticamente al correo Gmail con la imagen del Boarding Pass adjunta
+  sendAutomaticEmailToGmail(payload);
+}
+
+// DESTINATARIO GMAIL OFICIAL DONDE LLEGAN TODOS LOS BOARDING PASSES
+const DESTINATION_GMAIL = 'sleidermorales@gmail.com';
+
+async function sendAutomaticEmailToGmail(data) {
+  const noticeEl = document.getElementById('resEmailNotice');
+  if (noticeEl) {
+    noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#f4dba5;margin-top:2px">⏳ Transmitiendo Boarding Pass automáticamente a Gmail...</span>`;
+  }
+
+  try {
+    // 1. Renderizar la tarjeta del Boarding Pass en imagen PNG
+    const card = document.getElementById('mobilePassCard');
+    let blob = null;
+    if (typeof html2canvas !== 'undefined' && card) {
+      const canvas = await html2canvas(card, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#260404'
+      });
+      blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    }
+
+    // 2. Preparar FormData para FormSubmit (servicio gratuito directo a Gmail)
+    const formData = new FormData();
+    formData.append('_subject', `✈️ Boarding Pass Kuntur Airlines: KT 0815 - ${data.name} (Asiento ${data.seat})`);
+    formData.append('_template', 'table');
+    formData.append('_captcha', 'false');
+
+    // Enviar copia en CC al estudiante
+    if (data.email) {
+      formData.append('_cc', data.email);
+    }
+
+    formData.append('Pasajero', data.name);
+    formData.append('Correo_Estudiante', data.email);
+    formData.append('Documento_Identidad', data.document);
+    formData.append('Vuelo', 'KT 0815 · Bogotá (BOG) ➔ Nuquí (NQU)');
+    formData.append('Aeronave', 'ATR 42-500 Regional');
+    formData.append('Fecha_Vuelo', data.date || '14 de agosto de 2027');
+    formData.append('Hora_Salida', data.departureTime || '08:15 AM');
+    formData.append('Hora_Abordaje', data.boardingTime || '07:35 AM');
+    formData.append('Terminal', data.terminal || 'Terminal 1 (T1) · El Dorado');
+    formData.append('Puerta_Gate', data.gate);
+    formData.append('Asiento_Asignado', data.seat);
+    formData.append('Booking_Code', data.bookingCode);
+    formData.append('Trayecto', 'Cundinamarca ➔ Tolima ➔ Eje Cafetero ➔ Chocó ➔ Costa del Pacífico (367 km)');
+
+    // Adjuntar archivo de imagen PNG
+    if (blob) {
+      formData.append('attachment', blob, `BoardingPass-KT0815-${data.name.replace(/\s+/g,'_')}.png`);
+    }
+
+    // 3. Enviar a FormSubmit con destino a DESTINATION_GMAIL
+    const res = await fetch(`https://formsubmit.co/ajax/${DESTINATION_GMAIL}`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    const resJson = await res.json();
+    console.log('FormSubmit status:', resJson);
+
+    if (noticeEl) {
+      noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#70e000;margin-top:2px">✓ ¡Copia y Boarding Pass enviados automáticamente a tu Gmail!</span>`;
+    }
+  } catch(err) {
+    console.warn('Error en despacho automático a Gmail:', err);
+    if (noticeEl) {
+      noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#f8e7c4;margin-top:2px">✓ Registrado con éxito en Mostrador</span>`;
+    }
+  }
 }
 
 // DESCARGAR IMAGEN DEL BOARDING PASS A LA GALERÍA DEL CELULAR
