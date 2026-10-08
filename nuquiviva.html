@@ -151,11 +151,13 @@ body.no-scroll{overflow:hidden}
 .chip b{display:block;color:var(--cream);font-size:.95rem;font-weight:600}
 .chip small{color:rgba(246,239,225,.65);font-weight:300;font-size:.84rem}
 .map-panel{background:rgba(246,239,225,.05);border:1px solid rgba(246,239,225,.16);border-radius:26px;padding:18px;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.map-panel img{width:100%;height:auto;border-radius:16px;display:block;box-shadow:0 12px 30px rgba(0,0,0,.45);transition:transform .5s ease}
+.map-panel:hover img{transform:scale(1.02)}
 .map-panel svg{width:100%;height:auto;border-radius:16px}
 .ping{transform-box:fill-box;transform-origin:center;animation:ping 2.4s ease-out infinite}
 .ping.p2{animation-delay:1.2s}
 @keyframes ping{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.6);opacity:0}}
-.map-caption{display:flex;justify-content:space-between;color:rgba(246,239,225,.55);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;padding:14px 8px 4px}
+.map-caption{display:flex;justify-content:space-between;color:rgba(246,239,225,.75);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;padding:14px 8px 4px;font-weight:600}
 .postales{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:70px;position:relative}
 .postal{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.4);border:6px solid rgba(246,239,225,.92);transform:rotate(-2.2deg);transition:.5s cubic-bezier(.22,1,.36,1);background:var(--sea-deep)}
 .postal:nth-child(2){transform:rotate(1.6deg) translateY(14px)}
@@ -611,35 +613,8 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
         </div>
       </div>
       <div class="map-panel" data-reveal style="--d:.2s">
-        <svg viewBox="0 0 520 460" aria-label="Mapa ilustrado de Nuquí en el Golfo de Tribugá">
-          <defs>
-            <linearGradient id="mSea" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d4550"/><stop offset="100%" stop-color="#083038"/></linearGradient>
-            <linearGradient id="mLand" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1e5c44"/><stop offset="100%" stop-color="#14463a"/></linearGradient>
-          </defs>
-          <rect width="520" height="460" rx="16" fill="url(#mSea)"/>
-          <g stroke="#7fd0c8" stroke-width="1.6" fill="none" opacity=".18">
-            <path d="M320 70 q14 -8 28 0 q14 8 28 0"/><path d="M380 150 q14 -8 28 0 q14 8 28 0"/><path d="M330 350 q14 -8 28 0 q14 8 28 0"/><path d="M420 400 q14 -8 28 0 q14 8 28 0"/>
-          </g>
-          <path d="M0 0 H176 Q206 52 168 96 Q142 130 196 158 Q238 182 206 226 Q182 262 226 288 Q258 310 226 350 Q200 382 236 412 Q254 434 240 460 H0 Z" fill="url(#mLand)"/>
-          <g fill="#0c3527" opacity=".55">
-            <circle cx="60" cy="70" r="7"/><circle cx="110" cy="120" r="8"/><circle cx="70" cy="200" r="7"/><circle cx="130" cy="260" r="8"/><circle cx="90" cy="340" r="7"/><circle cx="150" cy="390" r="8"/><circle cx="50" cy="420" r="6"/><circle cx="120" cy="40" r="6"/>
-          </g>
-          <path d="M206 226 Q300 200 306 268 Q300 330 226 350" stroke="#d9a441" stroke-width="1.8" stroke-dasharray="6 7" fill="none" opacity=".85"/>
-          <text x="322" y="252" fill="#e8b95e" font-size="13" letter-spacing="3" font-family="Outfit,sans-serif" font-weight="600">GOLFO DE</text>
-          <text x="322" y="270" fill="#e8b95e" font-size="13" letter-spacing="3" font-family="Outfit,sans-serif" font-weight="600">TRIBUGÁ</text>
-          <text x="360" y="392" fill="#bfe8e2" font-size="15" letter-spacing="6" font-family="Outfit,sans-serif" opacity=".7">OCÉANO</text>
-          <text x="352" y="412" fill="#bfe8e2" font-size="15" letter-spacing="6" font-family="Outfit,sans-serif" opacity=".7">PACÍFICO</text>
-          <g transform="translate(448 58)" stroke="#f6efe1" opacity=".7">
-            <circle r="20" fill="none" stroke-width="1.4"/><path d="M0 -14 L4 0 L0 14 L-4 0 Z" fill="#f6efe1" stroke="none"/>
-            <text y="-26" text-anchor="middle" fill="#f6efe1" font-size="10" font-family="Outfit,sans-serif" stroke="none">N</text>
-          </g>
-          <circle class="ping" cx="222" cy="286" r="10" fill="none" stroke="#d9a441" stroke-width="2"/>
-          <circle class="ping p2" cx="222" cy="286" r="10" fill="none" stroke="#d9a441" stroke-width="2"/>
-          <circle cx="222" cy="286" r="7" fill="#d9a441" stroke="#07262d" stroke-width="2"/>
-          <rect x="236" y="272" width="72" height="26" rx="13" fill="#f6efe1"/>
-          <text x="272" y="290" text-anchor="middle" fill="#07262d" font-size="13" font-weight="700" letter-spacing="2" font-family="Outfit,sans-serif">NUQUÍ</text>
-        </svg>
-        <div class="map-caption"><span>Ilustración del territorio</span><span>Chocó · Colombia</span></div>
+        <img src="mapa-vuelo.png" alt="Ruta oficial de vuelo Bogotá (BOG) ➔ Nuquí (NQU) · Kuntur Airlines sobrevolando Cundinamarca, Tolima, Eje Cafetero y Chocó" loading="lazy">
+        <div class="map-caption"><span>Ruta de Vuelo BOG ➔ NQU</span><span>Trayecto 367 km · Kuntur Airlines</span></div>
       </div>
     </div>
 
@@ -673,7 +648,7 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
       <div>
         <p class="kicker" data-reveal style="--d:.08s">Nuestra flota · Kuntur Airlines</p>
         <h2 class="h2" data-reveal style="--d:.14s">Un solo ave,<br><em>un solo destino.</em></h2>
-        <p class="lead" data-reveal style="--d:.22s">Kuntur —el cóndor— vuela directo de Bogotá a Nuquí con una única aeronave: un ATR 42 con el mismo diseño estructural de la flota ATR 42 de Satena, pintado con nuestros colores vino tinto y oro.</p>
+        <p class="lead" data-reveal style="--d:.22s">Kuntur —el cóndor— vuela directo de Bogotá a Nuquí con su aeronave insignia: el ATR 42-500, luciendo fuselaje blanco puro con timón carmesí y el medallón dorado de Kuntur, bimotor turbohélice ideal para el enlace Pacífico y Andes.</p>
       </div>
     </div>
 
@@ -737,17 +712,20 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
         </svg>
       </div>
       <div class="fleet-info">
-        <span class="fleet-tag">Matrícula HK-6001 · "El Kuntur del Pacífico"</span>
-        <h3>ATR 42-600</h3>
-        <p class="fleet-model">Bimotor turbohélice regional · ala alta</p>
-        <p class="fleet-note">Diseño estructural idéntico al ATR 42 operado por Satena en Colombia, configurado por Kuntur Airlines para la ruta Bogotá–Nuquí.</p>
+        <span class="fleet-tag">★ AERONAVE PRINCIPAL</span>
+        <h3>ATR 42-500</h3>
+        <p class="fleet-model">TURBOHÉLICE REGIONAL · ENLACE PACÍFICO Y ANDES</p>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin:12px 0 6px;background:rgba(0,0,0,0.3);border:1px solid rgba(217,169,95,0.4);padding:6px 14px;border-radius:100px;font-size:0.82rem;color:var(--kgold-soft);font-weight:700">
+          <span>BOG · Bogotá</span>
+          <span>✈</span>
+          <span>NQU · Nuquí</span>
+        </div>
+        <p class="fleet-note">Nuestro avión insignia en rutas regionales. El ATR 42-500 luce fuselaje blanco puro con timón carmesí y el medallón dorado de Kuntur. Es el bimotor turbohélice ideal para conectar Bogotá con destinos de pista corta como la paradisíaca Nuquí, en el Chocó, donde la selva se abraza con el Pacífico.</p>
         <div class="fleet-specs">
-          <div><small>Configuración</small><b>48 pasajeros</b></div>
-          <div><small>Motores</small><b>2 × PW127M turbohélice</b></div>
-          <div><small>Velocidad crucero</small><b>556 km/h</b></div>
-          <div><small>Alcance</small><b>1.300 km</b></div>
-          <div><small>Techo de servicio</small><b>25.000 ft</b></div>
-          <div><small>Equipaje</small><b>15 kg + mano</b></div>
+          <div><small>Asientos</small><b>48</b></div>
+          <div><small>Km Alcance</small><b>1.345 km</b></div>
+          <div><small>Duración Máx.</small><b>5 h</b></div>
+          <div><small>Unidades</small><b>4</b></div>
         </div>
         <span class="fleet-pill">Operativa · Ruta BOG–NQU</span>
       </div>
