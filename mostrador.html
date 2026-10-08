@@ -1059,6 +1059,9 @@ tr.new-pax{animation:flashGold 2.5s ease-out}
       <button class="btn-print-main" onclick="window.print()">
         <span>🖨️ Imprimir Este Boarding Pass</span>
       </button>
+      <button class="btn-top" onclick="sendEmailToCurrentPax()">
+        <span>✉️ Reenviar al Correo</span>
+      </button>
       <button class="btn-top" onclick="markCurrentAsDone()">
         <span>✓ Confirmar Entrega Física</span>
       </button>
@@ -1260,6 +1263,9 @@ function renderTable() {
           ${escapeHtml(p.name || 'Sin Nombre')}
           ${p.isNew ? '<span class="badge-new">¡NUEVO!</span>' : ''}
         </div>
+        <div style="font-size:.72rem;color:var(--g-400);margin-top:2px">
+          ✉️ ${escapeHtml(p.email || 'diego.fonseca@universidad.edu.co')}
+        </div>
       </td>
       <td><span class="pax-pnr">${escapeHtml(p.bookingCode || p.id || 'KT0815')}</span></td>
       <td>
@@ -1410,11 +1416,47 @@ function markCurrentAsDone() {
   }
 }
 
+// REENVIAR BOARDING PASS AL CORREO DEL PASAJERO DESDE EL MOSTRADOR
+function sendEmailToCurrentPax() {
+  const p = passengers.find(x => String(x.id) === String(currentActivePaxId) || String(x.bookingCode) === String(currentActivePaxId));
+  if (!p) return;
+  const email = p.email || prompt('Ingresa el correo del estudiante:', 'estudiante@universidad.edu.co');
+  if (!email) return;
+
+  const subject = encodeURIComponent(`Boarding Pass Oficial Kuntur Airlines · Vuelo KT 0815 (${p.name})`);
+  const body = encodeURIComponent(
+`Estimado(a) ${p.name}:
+
+Adjunto enviamos la confirmación oficial de tu Boarding Pass para el vuelo de Kuntur Airlines:
+
+✈ VUELO: KT 0815
+🗺 RUTA: BOGOTÁ (BOG) ➔ NUQUÍ (NQU)
+📅 FECHA: ${p.date || 'AUG 14, 2027'}
+🕒 SALIDA: ${p.departureTime || '08:15 AM'}
+🕒 ABORDAJE: ${p.boardingTime || '07:35 AM'}
+🏛 TERMINAL: ${p.terminal || 'T1'}
+🚪 PUERTA / GATE: ${p.gate || 'A01'}
+💺 ASIENTO: ${p.seat || '03A'} (ATR 42-500)
+🎫 BOOKING CODE: ${p.bookingCode || p.id}
+
+🗺 TRAYECTO (367 km):
+Cundinamarca ➔ Tolima ➔ Eje Cafetero ➔ Chocó ➔ Costa del Pacífico colombiano.
+
+Tu Boarding Pass físico está listo y emitido en el mostrador de Kuntur Airlines.
+
+¡Buen viaje con el Espíritu de los Andes!
+Kuntur Airlines`
+  );
+
+  window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+}
+
 // LOS 6 PASAJEROS EXACTOS DE TU IMAGEN
 const OFFICIAL_PASSENGERS = [
   {
     id: 'K8T3F9',
     name: 'Diego Fonseca',
+    email: 'diego.fonseca@universidad.edu.co',
     bookingCode: 'K8T3F9',
     flight: 'KT 0815',
     route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',
@@ -1430,6 +1472,7 @@ const OFFICIAL_PASSENGERS = [
   {
     id: 'L9V4D2',
     name: 'Valentina Rojas',
+    email: 'valentina.rojas@universidad.edu.co',
     bookingCode: 'L9V4D2',
     flight: 'KT 0815',
     route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',
@@ -1445,6 +1488,7 @@ const OFFICIAL_PASSENGERS = [
   {
     id: 'M6P7Z1',
     name: 'Mateo Salazar',
+    email: 'mateo.salazar@universidad.edu.co',
     bookingCode: 'M6P7Z1',
     flight: 'KT 0815',
     route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',
@@ -1460,6 +1504,7 @@ const OFFICIAL_PASSENGERS = [
   {
     id: 'Q2X6N8',
     name: 'Camila Torres',
+    email: 'camila.torres@universidad.edu.co',
     bookingCode: 'Q2X6N8',
     flight: 'KT 0815',
     route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',
@@ -1475,6 +1520,7 @@ const OFFICIAL_PASSENGERS = [
   {
     id: 'T7B4K6',
     name: 'Sebastián Moreno',
+    email: 'sebastian.moreno@universidad.edu.co',
     bookingCode: 'T7B4K6',
     flight: 'KT 0815',
     route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',
@@ -1490,6 +1536,7 @@ const OFFICIAL_PASSENGERS = [
   {
     id: 'F5J9C3',
     name: 'Laura Gómez',
+    email: 'laura.gomez@universidad.edu.co',
     bookingCode: 'F5J9C3',
     flight: 'KT 0815',
     route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',

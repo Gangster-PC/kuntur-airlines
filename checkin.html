@@ -367,7 +367,26 @@ button,input,select{font-family:inherit}
 }
 @keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.15)}100%{transform:scale(1)}}
 .success-screen h2{font-size:1.45rem;color:var(--g-200);margin-bottom:4px}
-.success-screen p{color:var(--muted);font-size:.82rem;max-width:440px;margin-bottom:18px}
+.success-screen p{color:var(--muted);font-size:.82rem;max-width:440px;margin-bottom:14px}
+
+/* AVISO DE CORREO ENVIADO */
+.email-notice-card{
+  width:100%;
+  max-width:480px;
+  background:rgba(56,176,0,.12);
+  border:1px solid #38b000;
+  border-radius:12px;
+  padding:10px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  margin-bottom:16px;
+  color:#f8ede0;
+}
+.email-notice-card .en-icon{font-size:1.4rem}
+.email-notice-card b{display:block;font-size:.82rem;color:#70e000}
+.email-notice-card span{font-size:.76rem;color:var(--cream)}
 
 /* TARJETA MÓVIL (RÉPLICA EXACTA) */
 .mobile-pass-card{
@@ -450,21 +469,56 @@ button,input,select{font-family:inherit}
   text-align:center;
   font-weight:600;
 }
+
+/* BOTONES DE ACCIÓN TRAS COMPLETAR CHECKIN */
+.action-buttons-wrap{
+  display:grid;
+  gap:10px;
+  width:100%;
+  max-width:480px;
+  margin-bottom:12px;
+}
+.btn-action{
+  padding:14px 18px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:.92rem;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  transition:.25s;
+  border:none;
+}
+.btn-action.gold{
+  background:var(--grad-gold);
+  color:var(--m-950);
+  box-shadow:0 8px 20px rgba(213,167,92,.35);
+}
+.btn-action.ghost{
+  background:rgba(213,167,92,.1);
+  color:var(--g-300);
+  border:1px solid var(--line);
+}
+.btn-action:hover{transform:translateY(-2px)}
+
 .btn-done{
   width:100%;
   max-width:480px;
-  padding:15px;
+  padding:14px;
   border-radius:999px;
-  background:var(--grad-gold);
-  color:var(--m-950);
-  border:none;
-  font-weight:800;
+  background:transparent;
+  color:var(--muted);
+  border:1px solid var(--line-soft);
+  font-weight:700;
   cursor:pointer;
-  font-size:.95rem;
+  font-size:.85rem;
   margin-top:6px;
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
@@ -514,12 +568,16 @@ button,input,select{font-family:inherit}
         <div class="card-num">1</div>
         <div>
           <div class="card-title">Datos del Pasajero</div>
-          <div class="card-desc">Aparecerán exactamente en tu Boarding Pass</div>
+          <div class="card-desc">Información oficial para tu Boarding Pass y envío digital</div>
         </div>
       </div>
       <div class="form-group">
         <label>Nombre y Apellido Completo *</label>
         <input type="text" id="passengerName" class="form-input" placeholder="Ej: Diego Fonseca" required autocomplete="name"/>
+      </div>
+      <div class="form-group">
+        <label>Correo Electrónico (Para recibir tu Boarding Pass) *</label>
+        <input type="email" id="passengerEmail" class="form-input" placeholder="Ej: diego.fonseca@correo.com" required autocomplete="email"/>
       </div>
       <div class="form-group">
         <label>Documento de Identidad / Cédula / Pasaporte *</label>
@@ -572,14 +630,23 @@ button,input,select{font-family:inherit}
 </div>
 
 <!-- =====================================================================
-     CONFIRMACIÓN: BOARDING PASS EN EL CELULAR
+     CONFIRMACIÓN: BOARDING PASS EN EL CELULAR + ENVÍO A CORREO
      ===================================================================== -->
 <div class="success-screen" id="successScreen">
   <div class="success-icon">✓</div>
   <h2 class="cinzel">¡Check-in Confirmado!</h2>
-  <p>Tus datos han sido recibidos en el mostrador. Acércate con tu nombre para reclamar tu <b>Boarding Pass</b> físico.</p>
+  <p>Tus datos han sido recibidos en el mostrador de Kuntur Airlines y tu pase digital está listo.</p>
 
-  <div class="mobile-pass-card">
+  <div class="email-notice-card" id="emailNoticeBox">
+    <div class="en-icon">✉️</div>
+    <div>
+      <b>Boarding Pass digital listo</b>
+      <span>Asignado al correo: <strong id="resEmailNotice" style="color:#f8e7c4"></strong></span>
+    </div>
+  </div>
+
+  <!-- TARJETA DEL BOARDING PASS DIGITAL (LISTA PARA CAPTURAR Y DESCARGAR) -->
+  <div class="mobile-pass-card" id="mobilePassCard">
     <div class="mp-header">
       <div class="mp-brand">
         <b>KUNTUR</b>
@@ -637,6 +704,16 @@ button,input,select{font-family:inherit}
     </div>
   </div>
 
+  <!-- BOTONES DE DESCARGA Y ENVÍO POR CORREO -->
+  <div class="action-buttons-wrap">
+    <button type="button" class="btn-action gold" onclick="downloadPassImage()">
+      <span>📥 Guardar Imagen en tu Celular (PNG)</span>
+    </button>
+    <button type="button" class="btn-action ghost" onclick="shareOrEmailPass()">
+      <span>✉️ Enviar a mi Correo / Compartir</span>
+    </button>
+  </div>
+
   <button class="btn-done" onclick="location.href='index.html'">Volver a la Página Principal</button>
 </div>
 
@@ -648,6 +725,7 @@ const MQTT_BROKERS = [
 ];
 let mqttClient = null;
 let currentBrokerIndex = 0;
+let currentPassengerData = null;
 
 function connectMqtt() {
   const url = MQTT_BROKERS[currentBrokerIndex];
@@ -769,6 +847,7 @@ function generateBookingCode() {
 function handleCheckin(e) {
   e.preventDefault();
   const name = document.getElementById('passengerName').value.trim();
+  const email = document.getElementById('passengerEmail').value.trim();
   const doc = document.getElementById('documentId').value.trim();
   const seat = document.getElementById('selectedSeat').value || '03A';
   
@@ -783,10 +862,11 @@ function handleCheckin(e) {
   const payload = {
     id: bookingCode,
     name: name,
+    email: email,
     bookingCode: bookingCode,
     document: doc,
     flight: 'KT 0815',
-    route: 'Bogotá (BOG) ➔ Nuquí (NQU)',
+    route: 'BOGOTÁ (BOG)  ➔  NUQUÍ (NQU)',
     orig: 'BOG',
     dest: 'NQU',
     date: 'AUG 14, 2027',
@@ -799,6 +879,8 @@ function handleCheckin(e) {
     status: 'Pendiente'
   };
 
+  currentPassengerData = payload;
+
   // 1. Guardar local
   try {
     const list = JSON.parse(localStorage.getItem('kuntur_checkins') || '[]');
@@ -806,7 +888,7 @@ function handleCheckin(e) {
     localStorage.setItem('kuntur_checkins', JSON.stringify(list));
   } catch(err){}
 
-  // 2. Transmitir por MQTT
+  // 2. Transmitir por MQTT al Mostrador
   if (mqttClient && mqttClient.connected) {
     mqttClient.publish('kuntur/checkin/new', JSON.stringify(payload), { qos: 1 });
   }
@@ -816,19 +898,108 @@ function handleCheckin(e) {
   document.getElementById('resBookingCode').innerText = bookingCode;
   document.getElementById('resGate').innerText = gate;
   document.getElementById('resSeat').innerText = seat;
+  document.getElementById('resEmailNotice').innerText = email;
 
   const qrBox = document.getElementById('resQrCode');
   qrBox.innerHTML = '';
-  new QRCode(qrBox, {
-    text: `KUNTUR|KT0815|${bookingCode}|${name}|${seat}|${gate}|BOG-NQU|20270814`,
-    width: 104,
-    height: 104,
-    colorDark: "#260404",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.M
-  });
+  try {
+    new QRCode(qrBox, {
+      text: `KUNTUR|KT0815|${bookingCode}|${name}|${seat}|${gate}|BOG-NQU|20270814`,
+      width: 104,
+      height: 104,
+      colorDark: "#260404",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  } catch(err){}
 
   document.getElementById('successScreen').classList.add('show');
+}
+
+// DESCARGAR IMAGEN DEL BOARDING PASS A LA GALERÍA DEL CELULAR
+function downloadPassImage() {
+  const card = document.getElementById('mobilePassCard');
+  if (!card) return;
+
+  if (typeof html2canvas !== 'undefined') {
+    html2canvas(card, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#260404'
+    }).then(canvas => {
+      const link = document.createElement('a');
+      const filename = `BoardingPass-KT0815-${(currentPassengerData ? currentPassengerData.name : 'Kuntur').replace(/\s+/g, '_')}.png`;
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(err => {
+      alert('Se descargará en breve. (Si el navegador bloquea la descarga, mantén presionada la tarjeta para guardarla en fotos).');
+    });
+  } else {
+    alert('Mantén presionada la pantalla sobre el Boarding Pass para guardarlo en tus fotos.');
+  }
+}
+
+// ENVIAR POR CORREO ELECTRÓNICO / COMPARTIR NATIVO
+function shareOrEmailPass() {
+  if (!currentPassengerData) return;
+  const name = currentPassengerData.name;
+  const email = currentPassengerData.email;
+  const code = currentPassengerData.bookingCode;
+  const seat = currentPassengerData.seat;
+  const gate = currentPassengerData.gate;
+
+  const card = document.getElementById('mobilePassCard');
+
+  // Intentar compartir archivo de imagen nativo en móviles (iPhone y Android)
+  if (typeof html2canvas !== 'undefined' && navigator.canShare) {
+    html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#260404' }).then(canvas => {
+      canvas.toBlob(blob => {
+        const file = new File([blob], `BoardingPass-${code}.png`, { type: 'image/png' });
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({
+            title: `Boarding Pass Kuntur Airlines · Vuelo KT 0815`,
+            text: `Hola ${name}, aquí tienes tu Boarding Pass para el vuelo KT 0815 (Bogotá ➔ Nuquí). Asiento: ${seat}, Sala: ${gate}, Código: ${code}.`,
+            files: [file]
+          }).catch(() => fallbackMailto(email, name, code, seat, gate));
+        } else {
+          fallbackMailto(email, name, code, seat, gate);
+        }
+      });
+    }).catch(() => fallbackMailto(email, name, code, seat, gate));
+  } else {
+    fallbackMailto(email, name, code, seat, gate);
+  }
+}
+
+function fallbackMailto(email, name, code, seat, gate) {
+  downloadPassImage();
+  const subject = encodeURIComponent(`Boarding Pass Oficial Kuntur Airlines · Vuelo KT 0815 (Bogotá - Nuquí)`);
+  const body = encodeURIComponent(
+`¡Hola ${name}!
+
+Tu Check-in para el vuelo oficial de Kuntur Airlines ha sido confirmado exitosamente:
+
+✈ VUELO: KT 0815
+🗺 RUTA: Bogotá (BOG) ➔ Nuquí (NQU)
+📅 FECHA: 14 de agosto de 2027
+🕒 HORA DE SALIDA: 08:15 AM
+🕒 HORA DE ABORDAJE: 07:35 AM
+🏛 TERMINAL: Terminal 1 (T1) · Aeropuerto El Dorado
+🚪 PUERTA / GATE: ${gate}
+💺 ASIENTO: ${seat} (ATR 42-500)
+🎫 BOOKING CODE: ${code}
+
+🗺 TRAYECTO (367 km):
+Cundinamarca ➔ Tolima ➔ Eje Cafetero ➔ Chocó ➔ Costa del Pacífico colombiano.
+
+*Nota: La imagen de tu Boarding Pass oficial se ha guardado en tu dispositivo. Puedes adjuntarla a este mensaje o presentarla en el mostrador para recibir tu pase físico.*
+
+¡Gracias por volar con el Espíritu de los Andes!
+Kuntur Airlines`
+  );
+
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
