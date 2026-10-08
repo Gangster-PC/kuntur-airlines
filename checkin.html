@@ -939,48 +939,83 @@ async function dispatchBoardingPassEmail(data) {
   const noticeEl = document.getElementById('resEmailNotice');
   if (!data.email) return;
 
-  // 1. Capturar el Boarding Pass en alta definición para adjuntarlo como PNG
+  if (noticeEl) {
+    noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#f4dba5;margin-top:2px">⏳ Enviando Boarding Pass desde ${SENDER_EMAIL}...</span>`;
+  }
+
+  // 1. Captura rápida del Boarding Pass con timeout estricto de 1.2s (evita congelamiento en móviles)
   let imageBase64 = '';
   const card = document.getElementById('mobilePassCard');
   if (card && typeof html2canvas !== 'undefined') {
     try {
-      const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#260404' });
-      imageBase64 = canvas.toDataURL('image/png');
+      const capturePromise = html2canvas(card, {
+        scale: 1.2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#260404'
+      }).then(c => c.toDataURL('image/png'));
+      
+      const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(''), 1200));
+      imageBase64 = await Promise.race([capturePromise, timeoutPromise]);
     } catch(err) {
-      console.warn('Captura previa para email:', err);
+      console.warn('Captura rápida omitida por tiempo:', err);
     }
   }
 
-  // 2. Si Google Apps Script está activo, enviar automáticamente desde laboratoriosafiro@gmail.com
+  // 2. Envío ultra-resiliente a Google Apps Script
   const webhookUrl = EMAIL_DISPATCH_CONFIG.googleAppsScriptUrl;
   if (webhookUrl && webhookUrl.startsWith('http')) {
+    const payloadBody = JSON.stringify({
+      email: data.email,
+      name: data.name,
+      flight: data.flight || 'KT 0815',
+      seat: data.seat,
+      gate: data.gate,
+      bookingCode: data.bookingCode,
+      date: data.date || '14 de agosto de 2027',
+      departureTime: data.departureTime || '08:15 AM',
+      boardingTime: data.boardingTime || '07:35 AM',
+      terminal: data.terminal || 'T1 · El Dorado',
+      imageBase64: imageBase64
+    });
+
     try {
-      if (noticeEl) {
-        noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#f4dba5;margin-top:2px">⏳ Enviando Boarding Pass desde ${SENDER_EMAIL}...</span>`;
-      }
       await fetch(webhookUrl, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: data.email,
-          name: data.name,
-          flight: data.flight || 'KT 0815',
-          seat: data.seat,
-          gate: data.gate,
-          bookingCode: data.bookingCode,
-          date: data.date || '14 de agosto de 2027',
-          departureTime: data.departureTime || '08:15 AM',
-          boardingTime: data.boardingTime || '07:35 AM',
-          imageBase64: imageBase64
-        })
+        keepalive: true,
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: payloadBody
       });
+
       if (noticeEl) {
         noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#70e000;margin-top:2px">✓ Boarding Pass enviado exitosamente desde ${SENDER_EMAIL}</span>`;
       }
       return;
     } catch(err) {
-      console.warn('Error despachando con Google Apps Script:', err);
+      console.warn('Primer intento con imagen falló, reintentando en modo ligero:', err);
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          keepalive: true,
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            email: data.email,
+            name: data.name,
+            flight: data.flight || 'KT 0815',
+            seat: data.seat,
+            gate: data.gate,
+            bookingCode: data.bookingCode
+          })
+        });
+        if (noticeEl) {
+          noticeEl.innerHTML = `${data.email} <span style="display:block;font-size:0.75rem;color:#70e000;margin-top:2px">✓ Boarding Pass enviado exitosamente desde ${SENDER_EMAIL}</span>`;
+        }
+        return;
+      } catch(retryErr) {
+        console.error('Error total despachando:', retryErr);
+      }
     }
   }
 
