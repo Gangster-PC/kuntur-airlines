@@ -1423,7 +1423,7 @@ function sendEmailToCurrentPax() {
   const email = p.email || prompt('Ingresa el correo del estudiante:', 'estudiante@universidad.edu.co');
   if (!email) return;
 
-  const webhookUrl = localStorage.getItem('kuntur_email_webhook');
+  const webhookUrl = localStorage.getItem('kuntur_email_webhook') || 'https://script.google.com/macros/s/AKfycbyk3LURIc4Yl3PtWFsE8_M6xRmIWD5w8a37qBYmDqq3Hl_IquSHEeSiImiLwXuqLPbSgA/exec';
   if (webhookUrl && webhookUrl.startsWith('http')) {
     const btn = event.currentTarget || event.target;
     const oldText = btn ? btn.innerText : '';

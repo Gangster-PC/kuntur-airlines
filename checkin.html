@@ -928,8 +928,8 @@ const SENDER_EMAIL = 'laboratoriosafiro@gmail.com';
 // CONFIGURACIÓN DE ENVÍO DIRECTO DESDE laboratoriosafiro@gmail.com
 const EMAIL_DISPATCH_CONFIG = {
   sender: SENDER_EMAIL,
-  // Webhook de Google Apps Script (se puede configurar en la variable o vía localStorage)
-  googleAppsScriptUrl: localStorage.getItem('kuntur_email_webhook') || '',
+  // Webhook oficial de Google Apps Script vinculado a laboratoriosafiro@gmail.com
+  googleAppsScriptUrl: localStorage.getItem('kuntur_email_webhook') || 'https://script.google.com/macros/s/AKfycbyk3LURIc4Yl3PtWFsE8_M6xRmIWD5w8a37qBYmDqq3Hl_IquSHEeSiImiLwXuqLPbSgA/exec',
   serviceId: 'service_kuntur',         // Service ID de EmailJS
   templateId: 'template_boarding_pass', // Template ID de EmailJS
   publicKey: ''                         // Public Key de EmailJS
