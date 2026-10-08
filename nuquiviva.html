@@ -581,7 +581,7 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
       <li><a href="#faq">FAQ</a></li>
       <li><a href="index.html" style="color:var(--gold-soft);font-weight:700">✈ Portal Kuntur</a></li>
       <li><a href="checkin.html" style="color:var(--gold-soft)">Check-in</a></li>
-      <li><a href="#reserva" class="nav-cta">Reservar</a></li>
+      <li><a href="#reserva" class="nav-cta" style="background:var(--gold);color:var(--ink)!important;font-weight:700">🎫 Pasaporte Digital</a></li>
     </ul>
   </nav>
   <button class="burger" id="burger" aria-label="Menú"><span></span><span></span><span></span></button>
@@ -597,7 +597,7 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
   <a href="#faq">FAQ</a>
   <a href="index.html">✈ Portal Kuntur Airlines</a>
   <a href="checkin.html">🎫 Check-in de Vuelo</a>
-  <a href="#reserva">Reservar</a>
+  <a href="#reserva" style="color:var(--gold-soft);font-weight:700">🎫 Pasaporte Digital (Todos los planes)</a>
 </div>
 
 <main>
@@ -607,12 +607,19 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
   <canvas id="fireflies"></canvas>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
-    <p class="hero-kicker" data-reveal>Costa Pacífica · Chocó · Colombia</p>
-    <h1 class="hero-title" data-reveal style="--d:.12s">NUQUÍ</h1>
-    <p class="hero-sub" data-reveal style="--d:.24s">Naturaleza viva — un paraíso entre la selva y el océano</p>
+    <div data-reveal style="--d:.08s;margin-bottom:14px">
+      <a href="#reserva" style="display:inline-flex;align-items:center;gap:8px;background:rgba(217,164,65,.18);border:1px solid var(--gold);padding:6px 16px;border-radius:100px;font-size:.76rem;letter-spacing:.12em;color:var(--gold-soft);font-weight:600;backdrop-filter:blur(6px)">
+        <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#2ecc71;box-shadow:0 0 8px #2ecc71"></span>
+        <span>TECNOLOGÍA DISPONIBLE:</span> PASAPORTE DIGITAL DE EXPEDICIÓN (TODOS LOS PLANES) ➔
+      </a>
+    </div>
+    <p class="hero-kicker" data-reveal style="--d:.14s">Costa Pacífica · Chocó · Colombia</p>
+    <h1 class="hero-title" data-reveal style="--d:.18s">NUQUÍ</h1>
+    <p class="hero-sub" data-reveal style="--d:.26s">Naturaleza viva — un paraíso entre la selva y el océano</p>
     <p class="hero-tag" data-reveal style="--d:.34s">Viajes expedición al Golfo de Tribugá: ballenas jorobadas, tortugas marinas, cascadas escondidas y la selva más biodiversa del planeta. Vuela directo desde Bogotá con Kuntur Airlines.</p>
     <div class="hero-ctas" data-reveal style="--d:.44s">
-      <a href="#reserva" class="btn btn-gold">Planear mi expedición
+      <a href="#reserva" class="btn btn-gold">
+        🎫 Emitir mi Pasaporte Digital
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
       <a href="#flota" class="btn btn-ghost">Conocer Kuntur Airlines</a>
@@ -883,9 +890,9 @@ footer ul a:hover{color:var(--gold-soft);padding-left:6px}
 <!-- ================= RESERVA ================= -->
 <section class="section reserva" id="reserva">
   <div class="wrap">
-    <p class="kicker" data-reveal>Tu expedición</p>
-    <h2 class="h2" data-reveal style="--d:.1s">Arma tu viaje a <em>Nuquí.</em></h2>
-    <p class="lead" data-reveal style="--d:.2s">Elige tu plan, suma experiencias y obtén una cotización estimada al instante. Nuestro equipo te contacta en menos de 24 horas.</p>
+    <p class="kicker" data-reveal>Tecnología Oficial · Credencial Digital</p>
+    <h2 class="h2" data-reveal style="--d:.1s">Pasaporte Digital de <em>Expedición.</em></h2>
+    <p class="lead" data-reveal style="--d:.2s">Ingresa tus datos para generar tu <b>Pasaporte Oficial con Código QR</b> y todos los planes incluidos (Vuelo KT 0815 en ATR 42-500, ballenas jorobadas, liberación de tortugas, cascada y termales). Podrás descargarlo como imagen en tu celular o compartirlo por WhatsApp.</p>
 
     <form class="res-grid" id="bookingForm" novalidate data-reveal style="--d:.25s">
       <div class="form-card">
