@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-<title>Check-in Móvil — Kuntur Airlines</title>
+<title>Check-in Móvil — Kuntur Airlines · Vuelo KT 0815</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/cinzel@latest/index.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/cinzel@latest/700.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/index.css">
@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/700.css">
 <style>
 :root{
-  --m-950:#1a0202; --m-900:#280404; --m-800:#390606; --m-700:#4a0808; --m-600:#5d0b0b;
-  --g-200:#f8e7c4; --g-300:#f4dba5; --g-400:#e7c17c; --g-500:#d5a75c; --g-600:#b9853e; --g-700:#8f6423;
+  --m-950:#1a0202; --m-900:#280404; --m-850:#2b0404; --m-800:#390606; --m-700:#4a0808;
+  --g-100:#fdf6e6; --g-200:#f8e7c4; --g-300:#f4dba5; --g-400:#e7c17c; --g-500:#d5a75c; --g-600:#b9853e;
   --cream:#f8ede0; --muted:#d8bfae; --line:rgba(213,167,92,.28); --line-soft:rgba(213,167,92,.16);
   --grad-gold:linear-gradient(135deg,#f8e7c4 0%,#d5a75c 50%,#a9762c 100%);
   --safe-top:env(safe-area-inset-top, 0px);
@@ -64,10 +64,10 @@ button,input,select{font-family:inherit}
 .chk-brand b{font-family:'Cinzel',serif;font-size:1.02rem;letter-spacing:.2em;color:var(--g-300);display:block;line-height:1}
 .chk-brand span{font-size:.54rem;letter-spacing:.36em;color:var(--g-600);font-weight:700}
 
-.container{width:min(640px,94%);margin:0 auto;padding-top:20px}
+.container{width:min(640px,94%);margin:0 auto;padding-top:16px}
 
 /* HERO TITLE */
-.chk-intro{text-align:center;margin-bottom:24px}
+.chk-intro{text-align:center;margin-bottom:20px}
 .chk-badge{
   display:inline-flex;
   align-items:center;
@@ -83,42 +83,56 @@ button,input,select{font-family:inherit}
   text-transform:uppercase;
   margin-bottom:10px;
 }
-.chk-intro h1{font-size:1.65rem;color:var(--g-200);letter-spacing:.04em;line-height:1.2}
+.chk-intro h1{font-size:1.6rem;color:var(--g-200);letter-spacing:.04em;line-height:1.2}
 .chk-intro p{color:var(--muted);font-size:.86rem;margin-top:6px}
 
-/* STEPS WIDGET */
-.step-bar{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-bottom:24px;
-  position:relative;
+/* TARJETA VUELO DESTACADO KT0815 */
+.official-flight-card{
+  background:linear-gradient(135deg,rgba(50,5,5,.9) 0%,rgba(26,2,2,.95) 100%);
+  border:2px solid var(--g-500);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:20px;
+  box-shadow:0 12px 36px rgba(0,0,0,.5);
 }
-.step-item{
-  text-align:center;
-  font-size:.7rem;
-  color:var(--muted);
-  font-weight:700;
-  letter-spacing:.06em;
-  padding:8px 4px;
-  border-radius:10px;
-  background:rgba(31,3,3,.5);
-  border:1px solid var(--line-soft);
-  transition:.3s;
+.of-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--line-soft);
+  padding-bottom:12px;
+  margin-bottom:12px;
 }
-.step-item.active{
-  color:var(--m-950);
+.of-badge{
   background:var(--grad-gold);
-  border-color:var(--g-400);
+  color:var(--m-950);
+  font-family:'Cinzel',serif;
   font-weight:800;
+  font-size:.82rem;
+  letter-spacing:.12em;
+  padding:4px 12px;
+  border-radius:999px;
 }
-.step-item.completed{
-  color:var(--g-400);
-  border-color:var(--g-500);
-  background:rgba(213,167,92,.15);
+.of-route{font-size:1.15rem;font-weight:800;color:var(--cream);letter-spacing:.04em}
+.of-details-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px 12px;
+  font-size:.78rem;
+  margin-bottom:12px;
 }
+.of-details-grid div b{color:var(--g-400);font-weight:700}
+.of-trayecto{
+  background:rgba(213,167,92,.08);
+  border:1px solid var(--line-soft);
+  border-radius:10px;
+  padding:10px;
+  font-size:.74rem;
+  color:var(--muted);
+}
+.of-trayecto b{color:var(--g-300);display:block;margin-bottom:2px}
 
-/* CARDS FORM */
+/* FORM CARDS */
 .card{
   background:rgba(31,3,3,.75);
   backdrop-filter:blur(14px);
@@ -169,7 +183,7 @@ button,input,select{font-family:inherit}
   border-radius:12px;
   padding:14px 16px;
   color:var(--cream);
-  font-size:16px !important; /* evita zoom en iOS */
+  font-size:16px !important;
   min-height:50px;
   outline:none;
   transition:border .25s,box-shadow .25s;
@@ -179,90 +193,16 @@ button,input,select{font-family:inherit}
   box-shadow:0 0 12px rgba(213,167,92,.25);
 }
 
-/* FLIGHT SELECT CARDS */
-.flight-options{display:grid;gap:10px}
-.flight-radio{position:relative}
-.flight-radio input{position:absolute;opacity:0}
-.flight-box{
-  border:1px solid var(--line-soft);
-  border-radius:14px;
-  padding:14px;
-  background:rgba(40,4,4,.6);
-  cursor:pointer;
-  transition:.25s;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.flight-radio input:checked + .flight-box{
-  border-color:var(--g-400);
-  background:rgba(213,167,92,.14);
-  box-shadow:0 6px 18px rgba(213,167,92,.2);
-}
-.fl-badge{
-  font-size:.72rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  color:var(--g-400);
-  background:rgba(31,3,3,.7);
-  padding:4px 8px;
-  border-radius:6px;
-  border:1px solid var(--line-soft);
-}
-.fl-route{font-size:.92rem;font-weight:700;color:var(--cream);margin-top:4px}
-.fl-meta{font-size:.72rem;color:var(--muted);margin-top:2px}
-.fl-check{
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  border:2px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:transparent;
-  font-size:.8rem;
-  font-weight:800;
-  transition:.25s;
-}
-.flight-radio input:checked + .flight-box .fl-check{
-  background:var(--g-500);
-  border-color:var(--g-400);
-  color:var(--m-950);
-}
-
-/* CABIN CLASS PILLS */
-.class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.class-btn{position:relative}
-.class-btn input{position:absolute;opacity:0}
-.class-pill{
-  border:1px solid var(--line-soft);
-  border-radius:12px;
-  padding:10px 6px;
-  text-align:center;
-  font-size:.74rem;
-  font-weight:700;
-  color:var(--muted);
-  cursor:pointer;
-  transition:.25s;
-  background:rgba(40,4,4,.6);
-}
-.class-btn input:checked + .class-pill{
-  background:var(--grad-gold);
-  color:var(--m-950);
-  border-color:var(--g-400);
-  box-shadow:0 4px 14px rgba(213,167,92,.3);
-}
-
-/* SEAT MAP */
+/* SEAT MAP (ATR 42-500 · 2x2 SEATING) */
 .seat-map-container{
-  background:rgba(20,2,2,.75);
+  background:rgba(20,2,2,.8);
   border-radius:16px;
   padding:16px 12px;
   border:1px solid var(--line-soft);
 }
 .fuselage-head{
   text-align:center;
-  padding:8px 0 14px;
+  padding:8px 0 12px;
   border-bottom:1px dashed var(--line-soft);
   margin-bottom:12px;
 }
@@ -303,21 +243,22 @@ button,input,select{font-family:inherit}
 }
 .seat-row{
   display:grid;
-  grid-template-columns:30px 1fr 28px 1fr;
+  grid-template-columns:32px 1fr 28px 1fr;
   align-items:center;
-  gap:6px;
+  gap:8px;
 }
-.row-label{font-size:.72rem;font-weight:700;color:var(--g-600);text-align:center}
+.row-label{font-size:.74rem;font-weight:800;color:var(--g-500);text-align:center}
 .row-aisle{font-size:.6rem;color:rgba(213,167,92,.3);text-align:center;letter-spacing:.1em}
-.seat-group{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seat-group-atr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
 .seat{
-  height:38px;
+  height:40px;
   border-radius:8px;
   border:1px solid var(--line-soft);
   background:rgba(213,167,92,.08);
   color:var(--cream);
-  font-size:.72rem;
-  font-weight:700;
+  font-size:.76rem;
+  font-weight:800;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -331,7 +272,7 @@ button,input,select{font-family:inherit}
   color:var(--m-950) !important;
   border-color:var(--g-300) !important;
   font-weight:800;
-  box-shadow:0 0 12px rgba(213,167,92,.6);
+  box-shadow:0 0 14px rgba(213,167,92,.6);
 }
 .seat.occupied{
   background:#2e1818 !important;
@@ -341,36 +282,16 @@ button,input,select{font-family:inherit}
   opacity:.5;
 }
 .seat-summary{
-  margin-top:12px;
-  padding:10px 14px;
+  margin-top:14px;
+  padding:12px 14px;
   background:rgba(213,167,92,.1);
   border:1px solid var(--line);
   border-radius:10px;
-  font-size:.82rem;
+  font-size:.84rem;
   text-align:center;
   color:var(--g-300);
   font-weight:700;
 }
-
-/* BAGGAGE */
-.baggage-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.bag-card{
-  border:1px solid var(--line-soft);
-  border-radius:14px;
-  padding:14px 10px;
-  text-align:center;
-  background:rgba(40,4,4,.6);
-  cursor:pointer;
-  transition:.25s;
-}
-.bag-card input{display:none}
-.bag-card.active{
-  border-color:var(--g-400);
-  background:rgba(213,167,92,.15);
-}
-.bag-card svg{width:28px;height:28px;margin:0 auto 6px}
-.bag-card b{display:block;font-size:.8rem;color:var(--cream)}
-.bag-card span{font-size:.68rem;color:var(--muted)}
 
 /* SUBMIT CTA */
 .btn-submit{
@@ -395,7 +316,6 @@ button,input,select{font-family:inherit}
   touch-action:manipulation;
 }
 .btn-submit:active{transform:scale(0.98)}
-.btn-submit:disabled{opacity:.6;cursor:not-allowed}
 
 /* STATUS CHIP */
 .network-status{
@@ -409,92 +329,130 @@ button,input,select{font-family:inherit}
 }
 .status-bulb{width:8px;height:8px;border-radius:50%;background:#38b000;box-shadow:0 0 8px #38b000}
 
-/* SUCCESS MODAL / OVERLAY */
+/* =====================================================================
+   PANTALLA DE ÉXITO: BOARDING PASS EXACTO DE LA IMAGEN EN EL CELULAR
+   ===================================================================== */
 .success-screen{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(20,2,2,.96);
+  background:rgba(18,2,2,.97);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   z-index:99;
-  padding:20px 16px;
-  padding-top:calc(20px + var(--safe-top));
+  padding:20px 14px;
+  padding-top:calc(16px + var(--safe-top));
   padding-bottom:calc(20px + var(--safe-bottom));
   overflow-y:auto;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
   text-align:center;
 }
 .success-screen.show{display:flex}
 .success-icon{
-  width:72px;
-  height:72px;
+  width:64px;
+  height:64px;
   border-radius:50%;
   background:var(--grad-gold);
   color:var(--m-950);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:2rem;
+  font-size:1.8rem;
   font-weight:900;
-  margin-bottom:16px;
-  box-shadow:0 0 35px rgba(213,167,92,.6);
+  margin-bottom:12px;
+  box-shadow:0 0 30px rgba(213,167,92,.5);
   animation:pop .4s ease;
 }
 @keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.15)}100%{transform:scale(1)}}
-.success-screen h2{font-size:1.6rem;color:var(--g-200);margin-bottom:6px}
-.success-screen p{color:var(--muted);font-size:.88rem;max-width:440px;margin-bottom:20px}
+.success-screen h2{font-size:1.45rem;color:var(--g-200);margin-bottom:4px}
+.success-screen p{color:var(--muted);font-size:.82rem;max-width:440px;margin-bottom:18px}
 
-/* VIRTUAL TICKET */
-.v-ticket{
-  width:min(440px,100%);
-  background:linear-gradient(135deg,var(--m-800) 0%,var(--m-950) 100%);
-  border:2px solid var(--g-500);
+/* TARJETA MÓVIL (RÉPLICA EXACTA) */
+.mobile-pass-card{
+  width:100%;
+  max-width:480px;
+  background:linear-gradient(135deg,#320505 0%,#200303 50%,#2d0404 100%);
+  border:2.5px solid #d5a75c;
   border-radius:18px;
-  padding:20px;
+  padding:20px 18px;
   text-align:left;
-  box-shadow:0 20px 50px rgba(0,0,0,.6);
-  margin-bottom:20px;
+  box-shadow:0 20px 50px rgba(0,0,0,.7);
   position:relative;
+  overflow:hidden;
+  margin-bottom:18px;
 }
-.v-ticket-header{
+.mp-header{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  border-bottom:1px solid var(--line-soft);
+  justify-content:space-between;
+  border-bottom:1px solid rgba(213,167,92,.3);
   padding-bottom:12px;
   margin-bottom:12px;
 }
-.v-ticket-route{font-size:1.15rem;font-weight:800;color:var(--g-300)}
-.v-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.v-cell b{display:block;font-size:.66rem;color:var(--g-500);text-transform:uppercase;letter-spacing:.14em}
-.v-cell span{font-size:.95rem;font-weight:700;color:var(--cream)}
-.v-qr-box{
-  background:#fff;
+.mp-brand b{font-family:'Cinzel',serif;font-size:1.2rem;letter-spacing:.22em;color:#f8e7c4;display:block;line-height:1}
+.mp-brand span{font-size:.54rem;letter-spacing:.42em;color:#d5a75c;font-weight:700}
+.mp-route{
+  font-size:1.05rem;
+  font-weight:800;
+  color:#f8ede0;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.mp-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:14px;
+  background:rgba(20,2,2,.45);
   padding:12px;
   border-radius:12px;
-  width:140px;
-  height:140px;
+  border:1px solid rgba(213,167,92,.18);
+}
+.mp-cell b{font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:#d5a75c;font-weight:700;display:block}
+.mp-cell span{font-size:.9rem;font-weight:800;color:#f8ede0}
+.mp-boxes{display:flex;gap:10px;margin-bottom:14px}
+.mp-box{
+  flex:1;
+  border:1.5px solid #d5a75c;
+  border-radius:10px;
+  background:rgba(213,167,92,.08);
+  padding:8px;
+  text-align:center;
+}
+.mp-box b{font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:#d5a75c;font-weight:800;display:block}
+.mp-box span{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:800;color:#f8e7c4;display:block}
+
+.mp-qr-box{
+  background:#fff;
+  border:2px solid #d5a75c;
+  border-radius:12px;
+  padding:8px;
+  width:120px;
+  height:120px;
   margin:0 auto 12px;
   display:flex;
   align-items:center;
   justify-content:center;
 }
-.v-qr-box canvas,.v-qr-box img{width:100% !important;height:100% !important}
-.v-callout{
+.mp-qr-box canvas,.mp-qr-box img{width:100% !important;height:100% !important}
+
+.mp-callout{
   background:rgba(213,167,92,.12);
-  border:1px dashed var(--g-500);
+  border:1px dashed #d5a75c;
   border-radius:10px;
   padding:10px;
-  font-size:.78rem;
-  color:var(--g-300);
+  font-size:.76rem;
+  color:#f4dba5;
   text-align:center;
   font-weight:600;
 }
 .btn-done{
-  width:min(440px,100%);
+  width:100%;
+  max-width:480px;
   padding:15px;
   border-radius:999px;
   background:var(--grad-gold);
@@ -513,7 +471,7 @@ button,input,select{font-family:inherit}
 
 <!-- HEADER -->
 <header class="chk-header">
-  <a href="index.html" class="chk-back">← Volver al Portal</a>
+  <a href="index.html" class="chk-back">← Portal Kuntur</a>
   <div class="chk-brand">
     <img src="logo.png" alt="Kuntur"/>
     <div>
@@ -525,236 +483,157 @@ button,input,select{font-family:inherit}
 
 <div class="container">
   <div class="chk-intro">
-    <div class="chk-badge">✈ Check-in de Vuelo en Línea</div>
-    <h1>Confirma tu Viaje</h1>
-    <p>Ingresa tus datos, elige tu asiento favorito y envía tu registro directo al mostrador de la clase.</p>
+    <div class="chk-badge">✈ Check-in de Vuelo Oficial</div>
+    <h1>Vuelo Bogotá ➔ Nuquí</h1>
+    <p>Ingresa tus datos y escoge tu asiento para generar tu Boarding Pass oficial.</p>
   </div>
 
-  <div class="step-bar">
-    <div class="step-item active" id="s1">1. Pasajero</div>
-    <div class="step-item" id="s2">2. Vuelo</div>
-    <div class="step-item" id="s3">3. Asiento</div>
-    <div class="step-item" id="s4">4. Despacho</div>
+  <!-- TARJETA DEL VUELO OFICIAL KT0815 -->
+  <div class="official-flight-card">
+    <div class="of-header">
+      <span class="of-badge">VUELO KT 0815</span>
+      <span style="font-size:.74rem;color:var(--g-400);font-weight:700">ATR 42-500 · T1</span>
+    </div>
+    <div class="of-route">✈ Bogotá (BOG) ➔ Nuquí (NQU)</div>
+    <div class="of-details-grid">
+      <div><b>Fecha:</b> 14 de agosto de 2027</div>
+      <div><b>Salida:</b> 08:15 AM</div>
+      <div><b>Abordaje:</b> 07:35 AM</div>
+      <div><b>Puerta:</b> A01 - A06</div>
+    </div>
+    <div class="of-trayecto">
+      <b>🗺️ Trayecto (367 km):</b>
+      Cundinamarca ➔ Tolima ➔ Eje Cafetero ➔ Chocó ➔ Costa del Pacífico colombiano.
+    </div>
   </div>
 
   <form id="checkinForm" onsubmit="handleCheckin(event)">
-    <!-- STEP 1: DATOS -->
+    <!-- PASO 1: DATOS -->
     <div class="card">
       <div class="card-head">
         <div class="card-num">1</div>
         <div>
-          <div class="card-title">Datos Personales del Pasajero</div>
-          <div class="card-desc">Información para tu pase de abordar oficial</div>
+          <div class="card-title">Datos del Pasajero</div>
+          <div class="card-desc">Aparecerán exactamente en tu Boarding Pass</div>
         </div>
       </div>
       <div class="form-group">
-        <label>Nombres y Apellidos Completos *</label>
-        <input type="text" id="passengerName" class="form-input" placeholder="Ej: Valentina Morales Silva" required autocomplete="name"/>
+        <label>Nombre y Apellido Completo *</label>
+        <input type="text" id="passengerName" class="form-input" placeholder="Ej: Diego Fonseca" required autocomplete="name"/>
       </div>
       <div class="form-group">
         <label>Documento de Identidad / Cédula / Pasaporte *</label>
         <input type="text" id="documentId" class="form-input" placeholder="Ej: 1025849632" required/>
       </div>
-      <div class="form-group">
-        <label>Correo Electrónico (Para confirmación)</label>
-        <input type="email" id="email" class="form-input" placeholder="nombre@correo.com"/>
-      </div>
     </div>
 
-    <!-- STEP 2: VUELO -->
+    <!-- PASO 2: MAPA DE ASIENTOS ATR 42-500 (2x2) -->
     <div class="card">
       <div class="card-head">
         <div class="card-num">2</div>
         <div>
-          <div class="card-title">Selección de Vuelo</div>
-          <div class="card-desc">Elige la ruta programada para el ejercicio</div>
-        </div>
-      </div>
-      
-      <div class="flight-options">
-        <label class="flight-radio">
-          <input type="radio" name="flight" value="KU-204" data-route="Bogotá (BOG) ➔ Cusco (CUZ)" data-time="08:30" data-gate="B4" data-orig="BOG" data-dest="CUZ" checked/>
-          <div class="flight-box">
-            <div>
-              <span class="fl-badge">KU-204 · SALA B4</span>
-              <div class="fl-route">Bogotá (BOG) ➔ Cusco (CUZ)</div>
-              <div class="fl-meta">Salida: 08:30 AM · Airbus A320neo</div>
-            </div>
-            <div class="fl-check">✓</div>
-          </div>
-        </label>
-
-        <label class="flight-radio">
-          <input type="radio" name="flight" value="KU-510" data-route="Medellín (MDE) ➔ Buenos Aires (EZE)" data-time="14:15" data-gate="A12" data-orig="MDE" data-dest="EZE"/>
-          <div class="flight-box">
-            <div>
-              <span class="fl-badge">KU-510 · SALA A12</span>
-              <div class="fl-route">Medellín (MDE) ➔ Buenos Aires (EZE)</div>
-              <div class="fl-meta">Salida: 14:15 PM · Boeing 787-9 Dreamliner</div>
-            </div>
-            <div class="fl-check">✓</div>
-          </div>
-        </label>
-
-        <label class="flight-radio">
-          <input type="radio" name="flight" value="KU-108" data-route="Bogotá (BOG) ➔ Cartagena (CTG)" data-time="10:00" data-gate="C2" data-orig="BOG" data-dest="CTG"/>
-          <div class="flight-box">
-            <div>
-              <span class="fl-badge">KU-108 · SALA C2</span>
-              <div class="fl-route">Bogotá (BOG) ➔ Cartagena (CTG)</div>
-              <div class="fl-meta">Salida: 10:00 AM · Airbus A320neo</div>
-            </div>
-            <div class="fl-check">✓</div>
-          </div>
-        </label>
-
-        <label class="flight-radio">
-          <input type="radio" name="flight" value="KU-330" data-route="Cali (CLO) ➔ Santiago de Chile (SCL)" data-time="16:45" data-gate="B8" data-orig="CLO" data-dest="SCL"/>
-          <div class="flight-box">
-            <div>
-              <span class="fl-badge">KU-330 · SALA B8</span>
-              <div class="fl-route">Cali (CLO) ➔ Santiago de Chile (SCL)</div>
-              <div class="fl-meta">Salida: 16:45 PM · Embraer E195-E2</div>
-            </div>
-            <div class="fl-check">✓</div>
-          </div>
-        </label>
-      </div>
-
-      <div style="margin-top:16px">
-        <label style="font-size:.72rem;font-weight:700;color:var(--g-400);text-transform:uppercase;letter-spacing:.16em;display:block;margin-bottom:6px">Clase de Cabina:</label>
-        <div class="class-grid">
-          <label class="class-btn">
-            <input type="radio" name="cabin" value="Cóndor Business" checked/>
-            <div class="class-pill">Business</div>
-          </label>
-          <label class="class-btn">
-            <input type="radio" name="cabin" value="Económica Premium"/>
-            <div class="class-pill">Eco Premium</div>
-          </label>
-          <label class="class-btn">
-            <input type="radio" name="cabin" value="Económica Andina"/>
-            <div class="class-pill">Económica</div>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 3: ASIGNACIÓN DE ASIENTO -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-num">3</div>
-        <div>
-          <div class="card-title">Mapa Interactivo de Asientos</div>
-          <div class="card-desc">Toca el asiento en el que deseas viajar</div>
+          <div class="card-title">Selección de Asiento (ATR 42-500)</div>
+          <div class="card-desc">Configuración 2x2: Ventana o Pasillo</div>
         </div>
       </div>
 
       <div class="seat-map-container">
         <div class="fuselage-head">
-          <span>▲ Cabina Delantera · Hacia la Cabina de Mando ▲</span>
+          <span>▲ Cabina Delantera · Hacia Pilotos ▲</span>
         </div>
 
         <div class="seat-legend">
           <span><i class="legend-dot dot-avail"></i> Libre</span>
-          <span><i class="legend-dot dot-sel"></i> Tu Selección</span>
+          <span><i class="legend-dot dot-sel"></i> Tu Asiento</span>
           <span><i class="legend-dot dot-occ"></i> Ocupado</span>
         </div>
 
         <div class="plane-grid" id="planeSeats">
-          <!-- Generado dinámicamente con JS -->
+          <!-- Generado con JS en 2x2 -->
         </div>
 
         <div class="seat-summary" id="seatSummaryText">
-          Asiento seleccionado: <b>3A</b> (Ventana · Fila Delantera)
+          Asiento seleccionado: <b>03A</b> (Ventana · Fila 3)
         </div>
-        <input type="hidden" id="selectedSeat" value="3A"/>
+        <input type="hidden" id="selectedSeat" value="03A"/>
       </div>
-    </div>
-
-    <!-- STEP 4: EQUIPAJE -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-num">4</div>
-        <div>
-          <div class="card-title">Equipaje y Despacho</div>
-          <div class="card-desc">Declara tus piezas para la entrega del pase</div>
-        </div>
-      </div>
-
-      <div class="baggage-grid">
-        <div class="bag-card active" onclick="toggleBag(this, 'carryon')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--g-400)"><rect x="6" y="8" width="12" height="12" rx="2"/><path d="M9 8V5h6v3M10 12v4M14 12v4"/></svg>
-          <b>Mochila / Carry-on</b>
-          <span>Incluido (10 kg)</span>
-        </div>
-        <div class="bag-card" onclick="toggleBag(this, 'checked')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--g-400)"><rect x="4" y="6" width="16" height="15" rx="2"/><path d="M8 6V3h8v3M12 10v7"/></svg>
-          <b>Maleta en Bodega</b>
-          <span>1 pieza (23 kg)</span>
-        </div>
-      </div>
-      <input type="hidden" id="baggageVal" value="Carry-on (10kg)"/>
     </div>
 
     <!-- BOTÓN FINAL -->
     <button type="submit" class="btn-submit" id="btnSubmit">
-      <span>🚀 Completar Check-in y Notificar al Mostrador</span>
+      <span>🚀 Completar Check-in y Enviar al Mostrador</span>
     </button>
 
     <div class="network-status">
       <div class="status-bulb" id="netBulb"></div>
-      <span id="netText">Conectado a la Red en Tiempo Real de Kuntur</span>
+      <span id="netText">Mostrador Enlazado en Vivo (Listo)</span>
     </div>
   </form>
 </div>
 
-<!-- MODAL DE CONFIRMACIÓN / TICKET DIGITAL -->
+<!-- =====================================================================
+     CONFIRMACIÓN: BOARDING PASS EN EL CELULAR
+     ===================================================================== -->
 <div class="success-screen" id="successScreen">
   <div class="success-icon">✓</div>
   <h2 class="cinzel">¡Check-in Confirmado!</h2>
-  <p>Tus datos han sido transmitidos exitosamente a las agentes de mostrador. Acércate con tu documento para recibir tu <b>Boarding Pass</b> impreso.</p>
+  <p>Tus datos han sido recibidos en el mostrador. Acércate con tu nombre para reclamar tu <b>Boarding Pass</b> físico.</p>
 
-  <div class="v-ticket" id="vTicket">
-    <div class="v-ticket-header">
-      <div>
-        <div style="font-size:.65rem;color:var(--g-500);font-weight:700;letter-spacing:.18em">KUNTUR AIRLINES</div>
-        <div class="v-ticket-route" id="tktRoute">BOG ➔ CUZ</div>
+  <div class="mobile-pass-card">
+    <div class="mp-header">
+      <div class="mp-brand">
+        <b>KUNTUR</b>
+        <span>AIRLINES</span>
       </div>
-      <span class="fl-badge" id="tktFlight">KU-204</span>
+      <span style="font-size:.72rem;color:#f8e7c4;font-weight:800;letter-spacing:.12em">BOARDING PASS</span>
     </div>
 
-    <div class="v-grid">
-      <div class="v-cell">
-        <b>Pasajero</b>
-        <span id="tktName">-</span>
+    <div class="mp-route">
+      <span>✈ BOGOTÁ (BOG) ➔ NUQUÍ (NQU)</span>
+    </div>
+
+    <div class="mp-grid">
+      <div class="mp-cell">
+        <b>PASSENGER</b>
+        <span id="resPaxName">Diego Fonseca</span>
       </div>
-      <div class="v-cell">
-        <b>Documento</b>
-        <span id="tktDoc">-</span>
+      <div class="mp-cell">
+        <b>BOOKING CODE</b>
+        <span id="resBookingCode" style="color:#f8e7c4;font-family:monospace">K8T3F9</span>
       </div>
-      <div class="v-cell">
-        <b>Asiento</b>
-        <span id="tktSeat" style="color:var(--g-400);font-size:1.15rem">3A</span>
+      <div class="mp-cell">
+        <b>DATE</b>
+        <span>AUG 14, 2027</span>
       </div>
-      <div class="v-cell">
-        <b>Puerta / Sala</b>
-        <span id="tktGate">B4</span>
+      <div class="mp-cell">
+        <b>FLIGHT</b>
+        <span>KT 0815</span>
       </div>
-      <div class="v-cell">
-        <b>Clase</b>
-        <span id="tktCabin">Business</span>
+      <div class="mp-cell">
+        <b>BOARDING</b>
+        <span>07:35 AM</span>
       </div>
-      <div class="v-cell">
-        <b>Hora Abordaje</b>
-        <span id="tktTime">07:50 AM</span>
+      <div class="mp-cell">
+        <b>DEPARTURE</b>
+        <span>08:15 AM</span>
       </div>
     </div>
 
-    <div class="v-qr-box" id="ticketQr"></div>
+    <div class="mp-boxes">
+      <div class="mp-box">
+        <b>GATE</b>
+        <span id="resGate">A01</span>
+      </div>
+      <div class="mp-box">
+        <b>SEAT</b>
+        <span id="resSeat">03A</span>
+      </div>
+    </div>
 
-    <div class="v-callout">
-      Presenta esta pantalla en el mostrador para que verifiquen tu llegada.
+    <div class="mp-qr-box" id="resQrCode"></div>
+
+    <div class="mp-callout">
+      Presenta esta pantalla en el mostrador de clase para recibir tu pase impreso.
     </div>
   </div>
 
@@ -762,7 +641,7 @@ button,input,select{font-family:inherit}
 </div>
 
 <script>
-// BROKERS MQTT PÚBLICOS POR WEBSOCKET
+// BROKERS MQTT
 const MQTT_BROKERS = [
   'wss://broker.emqx.io:8084/mqtt',
   'wss://broker.hivemq.com:8884/mqtt'
@@ -783,21 +662,13 @@ function connectMqtt() {
     });
 
     mqttClient.on('connect', () => {
-      console.log('Conectado a MQTT:', url);
       const bulb = document.getElementById('netBulb');
       const text = document.getElementById('netText');
       if(bulb) bulb.style.background = '#38b000';
       if(text) text.innerText = 'Mostrador Enlazado en Vivo (Listo)';
     });
 
-    mqttClient.on('error', (err) => {
-      console.warn('Fallo en broker actual, cambiando:', err);
-      tryNextBroker();
-    });
-
-    mqttClient.on('close', () => {
-      // Reintentos automáticos
-    });
+    mqttClient.on('error', () => tryNextBroker());
   } catch (e) {
     tryNextBroker();
   }
@@ -807,29 +678,20 @@ function tryNextBroker() {
   currentBrokerIndex = (currentBrokerIndex + 1) % MQTT_BROKERS.length;
   setTimeout(connectMqtt, 1000);
 }
-
 connectMqtt();
 
-// GENERAR MAPA DE ASIENTOS
-const rows = [
-  { row: 1, type: 'business' },
-  { row: 2, type: 'business' },
-  { row: 3, type: 'premium' },
-  { row: 4, type: 'premium' },
-  { row: 5, type: 'economy' },
-  { row: 6, type: 'economy' },
-  { row: 7, type: 'economy' },
-  { row: 8, type: 'economy' },
-  { row: 9, type: 'economy' },
-  { row: 10, type: 'economy' }
+// MAPA 2x2 PARA ATR 42-500
+const atrRows = [
+  { row: '01' }, { row: '02' }, { row: '03' }, { row: '04' },
+  { row: '05' }, { row: '06' }, { row: '07' }, { row: '08' }
 ];
-const occupiedSeats = new Set(['1B', '2D', '4C', '5F', '7B', '8A', '9E']);
+const occupiedSeats = new Set(['01A', '02B', '04A', '05B']);
 
 function renderSeatMap() {
   const container = document.getElementById('planeSeats');
   container.innerHTML = '';
 
-  rows.forEach(r => {
+  atrRows.forEach(r => {
     const rowEl = document.createElement('div');
     rowEl.className = 'seat-row';
 
@@ -838,10 +700,10 @@ function renderSeatMap() {
     lbl.innerText = r.row;
     rowEl.appendChild(lbl);
 
-    // Lado izquierdo: A, B, C
+    // Lado A, B
     const leftGrp = document.createElement('div');
-    leftGrp.className = 'seat-group';
-    ['A', 'B', 'C'].forEach(col => {
+    leftGrp.className = 'seat-group-atr';
+    ['A', 'B'].forEach(col => {
       const code = `${r.row}${col}`;
       leftGrp.appendChild(createSeatBtn(code));
     });
@@ -853,10 +715,10 @@ function renderSeatMap() {
     aisle.innerText = '║';
     rowEl.appendChild(aisle);
 
-    // Lado derecho: D, E, F
+    // Lado C, D
     const rightGrp = document.createElement('div');
-    rightGrp.className = 'seat-group';
-    ['D', 'E', 'F'].forEach(col => {
+    rightGrp.className = 'seat-group-atr';
+    ['C', 'D'].forEach(col => {
       const code = `${r.row}${col}`;
       rightGrp.appendChild(createSeatBtn(code));
     });
@@ -877,7 +739,7 @@ function createSeatBtn(code) {
     btn.classList.add('occupied');
     btn.disabled = true;
   } else {
-    if (code === '3A') btn.classList.add('selected');
+    if (code === '03A') btn.classList.add('selected');
     btn.onclick = () => selectSeat(code);
   }
   return btn;
@@ -889,19 +751,18 @@ function selectSeat(code) {
   if (target) target.classList.add('selected');
 
   document.getElementById('selectedSeat').value = code;
-  const pos = code.endsWith('A') || code.endsWith('F') ? 'Ventana' : code.endsWith('C') || code.endsWith('D') ? 'Pasillo' : 'Centro';
-  document.getElementById('seatSummaryText').innerHTML = `Asiento seleccionado: <b>${code}</b> (${pos})`;
+  const pos = code.endsWith('A') || code.endsWith('D') ? 'Ventana' : 'Pasillo';
+  document.getElementById('seatSummaryText').innerHTML = `Asiento seleccionado: <b>${code}</b> (${pos} · ATR 42)`;
 }
 
-// TOGGLE EQUIPAJE
-let bagState = { carryon: true, checked: false };
-function toggleBag(el, type) {
-  bagState[type] = !bagState[type];
-  el.classList.toggle('active', bagState[type]);
-  const parts = [];
-  if (bagState.carryon) parts.push('Carry-on (10kg)');
-  if (bagState.checked) parts.push('Bodega (23kg)');
-  document.getElementById('baggageVal').value = parts.length ? parts.join(' + ') : 'Sin equipaje adicional';
+// GENERADOR DE CÓDIGO DE RESERVA ESTILO KUNTUR (6 CARACTERES)
+function generateBookingCode() {
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let code = '';
+  for(let i = 0; i < 6; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return code;
 }
 
 // ENVÍO DE CHECK-IN
@@ -909,72 +770,60 @@ function handleCheckin(e) {
   e.preventDefault();
   const name = document.getElementById('passengerName').value.trim();
   const doc = document.getElementById('documentId').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const seat = document.getElementById('selectedSeat').value || '3A';
-  const baggage = document.getElementById('baggageVal').value;
+  const seat = document.getElementById('selectedSeat').value || '03A';
+  
+  // Gate asignada según fila
+  const rowNum = parseInt(seat.substring(0, 2)) || 3;
+  const gate = 'A' + String(Math.min(rowNum, 6)).padStart(2, '0');
+  const bookingCode = generateBookingCode();
 
-  const selFlight = document.querySelector('input[name="flight"]:checked');
-  const flightNum = selFlight.value;
-  const route = selFlight.dataset.route;
-  const flightTime = selFlight.dataset.time;
-  const gate = selFlight.dataset.gate;
-  const orig = selFlight.dataset.orig;
-  const dest = selFlight.dataset.dest;
-
-  const cabin = document.querySelector('input[name="cabin"]:checked').value;
-
-  const pnr = 'KU' + Math.floor(1000 + Math.random() * 9000);
   const now = new Date();
   const regTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
   const payload = {
-    id: pnr,
+    id: bookingCode,
     name: name,
+    bookingCode: bookingCode,
     document: doc,
-    email: email,
-    flight: flightNum,
-    route: route,
-    orig: orig,
-    dest: dest,
-    time: flightTime,
+    flight: 'KT 0815',
+    route: 'Bogotá (BOG) ➔ Nuquí (NQU)',
+    orig: 'BOG',
+    dest: 'NQU',
+    date: 'AUG 14, 2027',
+    boardingTime: '07:35 AM',
+    departureTime: '08:15 AM',
+    terminal: 'T1',
     gate: gate,
     seat: seat,
-    cabin: cabin,
-    baggage: baggage,
     regTime: regTime,
-    status: 'Pendiente',
-    createdAt: now.getTime()
+    status: 'Pendiente'
   };
 
-  // 1. Guardar en localStorage de respaldo
+  // 1. Guardar local
   try {
     const list = JSON.parse(localStorage.getItem('kuntur_checkins') || '[]');
     list.unshift(payload);
     localStorage.setItem('kuntur_checkins', JSON.stringify(list));
   } catch(err){}
 
-  // 2. Enviar por MQTT al Mostrador
+  // 2. Transmitir por MQTT
   if (mqttClient && mqttClient.connected) {
     mqttClient.publish('kuntur/checkin/new', JSON.stringify(payload), { qos: 1 });
   }
 
-  // 3. Mostrar pantalla de éxito y generar QR
-  document.getElementById('tktRoute').innerText = `${orig} ➔ ${dest}`;
-  document.getElementById('tktFlight').innerText = flightNum;
-  document.getElementById('tktName').innerText = name.toUpperCase();
-  document.getElementById('tktDoc').innerText = doc;
-  document.getElementById('tktSeat').innerText = seat;
-  document.getElementById('tktGate').innerText = gate;
-  document.getElementById('tktCabin').innerText = cabin;
-  document.getElementById('tktTime').innerText = flightTime;
+  // 3. Mostrar pantalla de éxito
+  document.getElementById('resPaxName').innerText = name;
+  document.getElementById('resBookingCode').innerText = bookingCode;
+  document.getElementById('resGate').innerText = gate;
+  document.getElementById('resSeat').innerText = seat;
 
-  const qrBox = document.getElementById('ticketQr');
+  const qrBox = document.getElementById('resQrCode');
   qrBox.innerHTML = '';
   new QRCode(qrBox, {
-    text: JSON.stringify({ pnr: pnr, name: name, doc: doc, fl: flightNum, seat: seat }),
-    width: 120,
-    height: 120,
-    colorDark: "#1a0202",
+    text: `KUNTUR|KT0815|${bookingCode}|${name}|${seat}|${gate}|BOG-NQU|20270814`,
+    width: 104,
+    height: 104,
+    colorDark: "#260404",
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.M
   });
