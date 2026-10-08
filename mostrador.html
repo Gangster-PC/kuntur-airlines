@@ -1423,6 +1423,37 @@ function sendEmailToCurrentPax() {
   const email = p.email || prompt('Ingresa el correo del estudiante:', 'estudiante@universidad.edu.co');
   if (!email) return;
 
+  const webhookUrl = localStorage.getItem('kuntur_email_webhook');
+  if (webhookUrl && webhookUrl.startsWith('http')) {
+    const btn = event.currentTarget || event.target;
+    const oldText = btn ? btn.innerText : '';
+    if (btn) btn.innerText = '⏳ Enviando desde laboratoriosafiro@gmail.com...';
+    
+    fetch(webhookUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        name: p.name,
+        flight: p.flight || 'KT 0815',
+        seat: p.seat,
+        gate: p.gate,
+        bookingCode: p.bookingCode || p.id,
+        date: p.date || '14 de agosto de 2027',
+        departureTime: p.departureTime || '08:15 AM',
+        boardingTime: p.boardingTime || '07:35 AM'
+      })
+    }).then(() => {
+      alert(`✓ Correo enviado exitosamente a ${email}\nRemitente: laboratoriosafiro@gmail.com`);
+      if (btn) btn.innerText = oldText;
+    }).catch(err => {
+      console.warn(err);
+      if (btn) btn.innerText = oldText;
+    });
+    return;
+  }
+
   const subject = encodeURIComponent(`Boarding Pass Oficial Kuntur Airlines · Vuelo KT 0815 (${p.name})`);
   const body = encodeURIComponent(
 `Estimado(a) ${p.name}:
